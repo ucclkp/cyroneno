@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RestraintLayout
+    id="@+id/rl_cyro_raytracer_page_root"
+    width="fill"
+    height="fill">
+
+    <SequenceLayout
+        id="@+id/ll_cyro_raytracer_page_left_panel"
+        width="200"
+        height="fill"
+        orientation="vertical"
+        padding="8"
+        handle_start="@id/rl_cyro_raytracer_page_root"
+        handle_top="@id/rl_cyro_raytracer_page_root"
+        handle_bottom="@id/rl_cyro_raytracer_page_root">
+
+        <TextView
+            id="@+id/tv_cyro_raytracer_page_polygon"
+            width="auto"
+            height="auto"
+            margin="0, 0, 0, 4"
+            text="几何体："/>
+
+        <ListView
+            id="@+id/lv_cyro_raytracer_page_polygons"
+            width="fill"
+            height="200"/>
+
+        <TextView
+            width="auto"
+            height="auto"
+            margin="0, 8, 0, 4"
+            text="灯光："/>
+
+        <ListView
+            id="@+id/lv_cyro_raytracer_page_lights"
+            width="fill"
+            height="200"/>
+
+    </SequenceLayout>
+
+    <ImageView
+        id="@+id/iv_cyro_raytracer_page_img"
+        width="fill"
+        height="fill"
+        margin="8, 8, 8, 8"
+        handle_start="@id/ll_cyro_raytracer_page_left_panel, end"
+        handle_top="@id/rl_cyro_raytracer_page_root"
+        handle_end="@id/rl_cyro_raytracer_page_root"
+        handle_bottom="@id/rl_cyro_raytracer_page_root" />
+
+</RestraintLayout>

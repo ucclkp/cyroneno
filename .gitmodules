@@ -1,0 +1,10 @@
+[submodule "ukive"]
+	path = ukive
+	url = https://github.com/ucclkp/ukive.git
+	branch = develop
+	
+[submodule "utils"]
+	path = utils
+	url = https://github.com/ucclkp/utils.git
+	branch = develop
+	

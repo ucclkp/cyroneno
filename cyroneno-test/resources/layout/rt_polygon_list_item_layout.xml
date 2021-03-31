@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SequenceLayout
+    width="fill"
+    height="auto"
+    orientation="horizontal"
+    padding="4">
+
+    <ImageView
+        id="@+id/iv_rt_polygon_item_img"
+        width="12"
+        height="12" />
+
+    <TextView
+        id="@+id/tv_rt_polygon_item_name"
+        width="fill"
+        height="auto"
+        margin="4, 0, 0, 0"
+        text_size="12" />
+
+</SequenceLayout>

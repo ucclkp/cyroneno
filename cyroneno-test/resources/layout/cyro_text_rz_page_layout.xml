@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RestraintLayout
+    id="@+id/rl_cyro_text_rz_root"
+    width="fill"
+    height="fill">
+
+    <RestraintLayout
+        id="@+id/rl_cyro_text_rz_settings"
+        width="fill"
+        height="auto"
+        handle_start="@id/rl_cyro_text_rz_root"
+        handle_top="@id/rl_cyro_text_rz_root"
+        handle_end="@id/rl_cyro_text_rz_root">
+
+        <TextView
+            id="@+id/tv_cyro_text_rz_text"
+            padding="8"
+            width="240"
+            height="auto"
+            margin="8, 8, 0, 8"
+            handle_start="@id/rl_cyro_text_rz_settings"
+            handle_top="@id/rl_cyro_text_rz_settings"
+            handle_bottom="@id/rl_cyro_text_rz_settings" />
+
+        <Button
+            id="@+id/bt_cyro_text_rz_commit"
+            width="auto"
+            height="auto"
+            margin="8, 0, 0, 0"
+            handle_start="@id/tv_cyro_text_rz_text, end"
+            handle_top="@id/tv_cyro_text_rz_text"
+            handle_bottom="@id/tv_cyro_text_rz_text"
+            text="提交" />
+
+        <CheckBox
+            id="@+id/cb_cyro_text_rz_debug"
+            width="auto"
+            height="auto"
+            margin="8, 0, 0, 0"
+            handle_start="@id/bt_cyro_text_rz_commit, end"
+            handle_top="@id/tv_cyro_text_rz_text"
+            handle_bottom="@id/tv_cyro_text_rz_text"
+            text="调试模式" />
+
+        <CheckBox
+            id="@+id/cb_cyro_text_rz_outline"
+            width="auto"
+            height="auto"
+            margin="8, 0, 0, 0"
+            handle_start="@id/cb_cyro_text_rz_debug, end"
+            handle_top="@id/tv_cyro_text_rz_text"
+            handle_bottom="@id/tv_cyro_text_rz_text"
+            text="仅轮廓" />
+
+    </RestraintLayout>
+
+    <ImageView
+        id="@+id/iv_cyro_text_rz_page_img"
+        width="fill"
+        height="fill"
+        margin="8, 8, 8, 8"
+        handle_start="@id/rl_cyro_text_rz_root"
+        handle_top="@id/rl_cyro_text_rz_settings, bottom"
+        handle_end="@id/rl_cyro_text_rz_root"
+        handle_bottom="@id/rl_cyro_text_rz_root" />
+
+    <GridView
+        id="@+id/gv_cyro_text_rz_page_img"
+        width="fill"
+        height="fill"
+        handle_start="@id/rl_cyro_text_rz_root"
+        handle_top="@id/rl_cyro_text_rz_settings, bottom"
+        handle_end="@id/rl_cyro_text_rz_root"
+        handle_bottom="@id/rl_cyro_text_rz_root" />
+
+</RestraintLayout>

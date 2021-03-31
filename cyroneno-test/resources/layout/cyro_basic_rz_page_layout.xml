@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RestraintLayout
+    id="@+id/rl_cyro_basic_rz_page_root"
+    width="fill"
+    height="fill">
+
+    <ImageView
+        id="@+id/iv_cyro_basic_rz_page_img"
+        width="fill"
+        height="fill"
+        margin="8, 8, 8, 8"
+        handle_start="@id/rl_cyro_basic_rz_page_root"
+        handle_top="@id/rl_cyro_basic_rz_page_root"
+        handle_end="@id/rl_cyro_basic_rz_page_root"
+        handle_bottom="@id/rl_cyro_basic_rz_page_root" />
+
+</RestraintLayout>

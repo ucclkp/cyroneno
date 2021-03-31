@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ui\cyroneno_window.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="test\bezier_rz_unit_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\ellipse_rz_unit_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\line_rz_unit_test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\pages\cyro_basic_rz_page.cpp">
+      <Filter>ui\pages</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\pages\cyro_pipeline_page.cpp">
+      <Filter>ui\pages</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\pages\cyro_text_rz_page.cpp">
+      <Filter>ui\pages</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ray_tracer\cyro_raytracer_page.cpp">
+      <Filter>ui\ray_tracer</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ray_tracer\rt_polygon_list_source.cpp">
+      <Filter>ui\ray_tracer</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ray_tracer\rt_light_list_source.cpp">
+      <Filter>ui\ray_tracer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ui">
+      <UniqueIdentifier>{c1aba83c-0aec-429c-817f-1b3ef22cacff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{0802cb0d-084a-49d3-9273-837604c82aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\pages">
+      <UniqueIdentifier>{efa95dd9-44c6-4cde-834d-b5749aeb995e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\ray_tracer">
+      <UniqueIdentifier>{fe0a5f87-42a3-42b8-bffa-30b3f1442bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{548a8f6a-b18f-49e2-93ac-2b5516c520ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource\layout">
+      <UniqueIdentifier>{52cd237c-9d3e-44b8-a85d-e34213f42362}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ui\cyroneno_window.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="test\bezier_rz_unit_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\ellipse_rz_unit_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\line_rz_unit_test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\pages\cyro_basic_rz_page.h">
+      <Filter>ui\pages</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\pages\cyro_pipeline_page.h">
+      <Filter>ui\pages</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\pages\cyro_text_rz_page.h">
+      <Filter>ui\pages</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ray_tracer\cyro_raytracer_page.h">
+      <Filter>ui\ray_tracer</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ray_tracer\rt_polygon_list_source.h">
+      <Filter>ui\ray_tracer</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ray_tracer\rt_light_list_source.h">
+      <Filter>ui\ray_tracer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="resources\layout\cyro_basic_rz_page_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+    <Xml Include="resources\layout\cyro_pipeline_page_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+    <Xml Include="resources\layout\cyro_raytracer_page_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+    <Xml Include="resources\layout\cyro_text_rz_page_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+    <Xml Include="resources\layout\cyroneno_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+    <Xml Include="resources\layout\rt_light_list_item_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+    <Xml Include="resources\layout\rt_polygon_list_item_layout.xml">
+      <Filter>resource\layout</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="application.manifest" />
+  </ItemGroup>
+</Project>
