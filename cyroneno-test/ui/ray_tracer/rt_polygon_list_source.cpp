@@ -12,6 +12,7 @@
 #include "ukive/views/image_view.h"
 #include "ukive/views/text_view.h"
 #include "ukive/views/layout/layout_view.h"
+#include "ukive/views/list/list_item_event_router.h"
 #include "ukive/resources/layout_instantiator.h"
 #include "ukive/elements/color_element.h"
 
@@ -20,11 +21,13 @@
 
 namespace cyro {
 
-    ukive::ListItem* RTPolygonListSource::onListCreateItem(
-        ukive::LayoutView* parent, int position)
+    ukive::ListItem* RTPolygonListSource::onCreateListItem(
+        ukive::LayoutView* parent, ukive::ListItemEventRouter* router, size_t position)
     {
         auto view = ukive::LayoutInstantiator::from(
             parent->getContext(), parent, Res::Layout::rt_light_list_item_layout_xml);
+        view->setOnInputEventDelegate(router);
+
         auto item = new RTPolygonItem(view);
         item->img_view = static_cast<ukive::ImageView*>(view->findView(Res::Id::iv_rt_light_item_img));
         item->name_view = static_cast<ukive::TextView*>(view->findView(Res::Id::tv_rt_light_item_name));
@@ -32,8 +35,11 @@ namespace cyro {
         return item;
     }
 
-    void RTPolygonListSource::onListSetItemData(ukive::ListItem* item, int position) {
-        auto& data = data_[position];
+    void RTPolygonListSource::onSetListItemData(
+        ukive::LayoutView* parent, ukive::ListItemEventRouter* router,
+        ukive::ListItem* item)
+    {
+        auto& data = data_[item->data_pos];
 
         auto polygon_item = static_cast<RTPolygonItem*>(item);
         polygon_item->name_view->setText(data.name);
@@ -52,8 +58,8 @@ namespace cyro {
         }
     }
 
-    int RTPolygonListSource::onListGetDataCount() {
-        return utl::num_cast<int>(data_.size());
+    size_t RTPolygonListSource::onGetListDataCount(ukive::LayoutView* parent) const {
+        return data_.size();
     }
 
     void RTPolygonListSource::addItem(int img_id, std::u16string name) {

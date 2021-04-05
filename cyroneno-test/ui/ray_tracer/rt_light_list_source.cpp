@@ -12,6 +12,7 @@
 #include "ukive/views/image_view.h"
 #include "ukive/views/text_view.h"
 #include "ukive/views/layout/layout_view.h"
+#include "ukive/views/list/list_item_event_router.h"
 #include "ukive/resources/layout_instantiator.h"
 #include "ukive/elements/color_element.h"
 
@@ -20,11 +21,13 @@
 
 namespace cyro {
 
-    ukive::ListItem* RTLightListSource::onListCreateItem(
-        ukive::LayoutView* parent, int position)
+    ukive::ListItem* RTLightListSource::onCreateListItem(
+        ukive::LayoutView* parent, ukive::ListItemEventRouter* router, size_t position)
     {
         auto view = ukive::LayoutInstantiator::from(
             parent->getContext(), parent, Res::Layout::rt_light_list_item_layout_xml);
+        view->setOnInputEventDelegate(router);
+
         auto item = new RTLightItem(view);
         item->img_view = static_cast<ukive::ImageView*>(view->findView(Res::Id::iv_rt_light_item_img));
         item->name_view = static_cast<ukive::TextView*>(view->findView(Res::Id::tv_rt_light_item_name));
@@ -32,8 +35,11 @@ namespace cyro {
         return item;
     }
 
-    void RTLightListSource::onListSetItemData(ukive::ListItem* item, int position) {
-        auto& data = data_[position];
+    void RTLightListSource::onSetListItemData(
+        ukive::LayoutView* parent, ukive::ListItemEventRouter* router,
+        ukive::ListItem* item)
+    {
+        auto& data = data_[item->data_pos];
 
         auto light_item = static_cast<RTLightItem*>(item);
         light_item->name_view->setText(data.name);
@@ -52,8 +58,8 @@ namespace cyro {
         }
     }
 
-    int RTLightListSource::onListGetDataCount() {
-        return utl::num_cast<int>(data_.size());
+    size_t RTLightListSource::onGetListDataCount(ukive::LayoutView* parent) const {
+        return data_.size();
     }
 
     void RTLightListSource::addItem(int img_id, std::u16string name) {

@@ -9,6 +9,7 @@
 
 #include "ukive/graphics/images/image_frame.h"
 #include "ukive/page/page.h"
+#include "ukive/views/list/list_item_event_router.h"
 #include "ukive/views/list/list_view.h"
 
 #include "cyroneno/ray_tracer/ray_tracer.h"
@@ -26,8 +27,9 @@ namespace cyro {
 
     class CyroRayTracerPage :
         public ukive::Page,
-        public RayTracerListener,
-        public ukive::ListItemSelectedListener {
+        public ukive::ListItemEventListener,
+        public RayTracerListener
+    {
     public:
         explicit CyroRayTracerPage(ukive::Window* w);
 
@@ -40,8 +42,10 @@ namespace cyro {
         void onPixelData(const std::vector<RenderInfo>& row) override;
         void onRenderComplete() override;
 
-        // ukive::ListItemSelectedListener
-        void onItemPressed(ukive::ListView* lv, ukive::ListItem* item) override;
+        // ukive::ListItemEventListener
+        void onItemPressed(
+            ukive::ListView* list_view,
+            ukive::ListItem* item, ukive::View* v) override;
 
     private:
         ukive::ListView* light_list_ = nullptr;

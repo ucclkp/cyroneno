@@ -44,7 +44,7 @@ namespace cyro {
         light_list_->setSource(light_source_);
         light_list_->setLayouter(new ukive::LinearListLayouter());
         light_list_->setBackground(new ukive::ColorElement(ukive::Color::Grey300));
-        light_list_->setItemSelectedListener(this);
+        light_list_->setItemEventRouter(new ukive::ListItemEventRouter(this));
 
         polygon_source_ = new RTPolygonListSource();
 
@@ -52,7 +52,7 @@ namespace cyro {
         polygon_list_->setSource(polygon_source_);
         polygon_list_->setLayouter(new ukive::LinearListLayouter());
         polygon_list_->setBackground(new ukive::ColorElement(ukive::Color::Grey300));
-        polygon_list_->setItemSelectedListener(this);
+        polygon_list_->setItemEventRouter(new ukive::ListItemEventRouter(this));
 
         return v;
     }
@@ -95,15 +95,16 @@ namespace cyro {
     }
 
     void CyroRayTracerPage::onItemPressed(
-        ukive::ListView* lv, ukive::ListItem* item)
+        ukive::ListView* list_view,
+        ukive::ListItem* item, ukive::View* v)
     {
-        if (polygon_list_ == lv) {
+        if (polygon_list_ == list_view) {
             polygon_source_->selectItem(item->data_pos);
             polygon_source_->notifyDataChanged();
 
             light_source_->selectItem(-1);
             light_source_->notifyDataChanged();
-        } else if (light_list_ == lv) {
+        } else if (light_list_ == list_view) {
             light_source_->selectItem(item->data_pos);
             light_source_->notifyDataChanged();
 

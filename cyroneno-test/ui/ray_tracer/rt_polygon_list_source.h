@@ -31,9 +31,13 @@ namespace cyro {
             ukive::TextView* name_view = nullptr;
         };
 
-        ukive::ListItem* onListCreateItem(ukive::LayoutView* parent, int position) override;
-        void onListSetItemData(ukive::ListItem* item, int position) override;
-        int onListGetDataCount() override;
+        ukive::ListItem* onCreateListItem(
+            ukive::LayoutView* parent, ukive::ListItemEventRouter* router,
+            size_t position) override;
+        void onSetListItemData(
+            ukive::LayoutView* parent, ukive::ListItemEventRouter* router,
+            ukive::ListItem* item) override;
+        size_t onGetListDataCount(ukive::LayoutView* parent) const override;
 
         void addItem(int img_id, std::u16string name);
         void selectItem(int sel_pos);
