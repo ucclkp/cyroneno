@@ -7,6 +7,7 @@
 #include "cyroneno-test/ui/pages/cyro_text_rz_page.h"
 
 #include "utils/convert.h"
+#include "utils/int_conv.hpp"
 
 #include "ukive/elements/color_element.h"
 #include "ukive/elements/texteditor_element.h"
@@ -92,7 +93,7 @@ namespace cyro {
                 ukive::PointD(p1.x, p1.y),
                 ukive::Color::Green400);
             view_->addPoint(p0.x, p0.y, context.dp2pxi(3), ukive::Color::Green400,
-                utl::to_u16string(index_), ukive::Color::Green400);
+                utl::itos16(index_), ukive::Color::Green400);
             ++index_;
         }
 
@@ -107,10 +108,10 @@ namespace cyro {
                 ukive::PointD(p3.x, p3.y),
                 ukive::Color::Pink200);
             view_->addPoint(p1.x, p1.y, context.dp2pxi(3), ukive::Color::Pink200,
-                utl::to_u16string(index_), ukive::Color::Pink200);
+                utl::itos16(index_), ukive::Color::Pink200);
             ++index_;
             view_->addPoint(p2.x, p2.y, context.dp2pxi(3), ukive::Color::Pink200,
-                utl::to_u16string(index_), ukive::Color::Pink200);
+                utl::itos16(index_), ukive::Color::Pink200);
             ++index_;
         }
 
@@ -132,30 +133,30 @@ namespace cyro {
 
         v->setBackground(new ukive::ColorElement(ukive::Color(0.5f, 0.5f, 0.5f)));
 
-        findViewById<ukive::View>(v, Res::Id::rl_cyro_text_rz_settings)
+        findView<ukive::View>(v, Res::Id::rl_cyro_text_rz_settings)
             ->setBackground(new ukive::ColorElement(ukive::Color::White));
 
-        text_view_ = findViewById<ukive::TextView>(v, Res::Id::tv_cyro_text_rz_text);
+        text_view_ = findView<ukive::TextView>(v, Res::Id::tv_cyro_text_rz_text);
         text_view_->setBackground(new ukive::TextEditorElement(parent->getContext()));
         text_view_->setIsEditable(true);
         text_view_->setIsSelectable(true);
         text_view_->autoWrap(false);
 
-        commit_button_ = findViewById<ukive::Button>(v, Res::Id::bt_cyro_text_rz_commit);
+        commit_button_ = findView<ukive::Button>(v, Res::Id::bt_cyro_text_rz_commit);
         commit_button_->setOnClickListener(this);
 
-        debug_cb_ = findViewById<ukive::CheckBox>(v, Res::Id::cb_cyro_text_rz_debug);
+        debug_cb_ = findView<ukive::CheckBox>(v, Res::Id::cb_cyro_text_rz_debug);
         debug_cb_->setOnCheckListener(this);
 
-        outline_cb_ = findViewById<ukive::CheckBox>(v, Res::Id::cb_cyro_text_rz_outline);
+        outline_cb_ = findView<ukive::CheckBox>(v, Res::Id::cb_cyro_text_rz_outline);
         outline_cb_->setOnCheckListener(this);
 
-        grid_view_ = findViewById<ukive::GridView>(v, Res::Id::gv_cyro_text_rz_page_img);
+        grid_view_ = findView<ukive::GridView>(v, Res::Id::gv_cyro_text_rz_page_img);
         grid_view_->setBackground(new ukive::ColorElement(ukive::Color::White));
         grid_view_->setFlippedY(true);
         grid_view_->setVisibility(ukive::View::HIDE);
 
-        img_view_ = findViewById<ukive::ImageView>(v, Res::Id::iv_cyro_text_rz_page_img);
+        img_view_ = findView<ukive::ImageView>(v, Res::Id::iv_cyro_text_rz_page_img);
         return v;
     }
 

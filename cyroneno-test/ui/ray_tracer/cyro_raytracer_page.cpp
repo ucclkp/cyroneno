@@ -34,13 +34,13 @@ namespace cyro {
 
         v->setBackground(new ukive::ColorElement(ukive::Color(0.5f, 0.5f, 0.5f)));
 
-        img_view_ = findViewById<ukive::ImageView>(v, Res::Id::iv_cyro_raytracer_page_img);
-        auto left_panel = findViewById<ukive::View>(v, Res::Id::ll_cyro_raytracer_page_left_panel);
+        img_view_ = findView<ukive::ImageView>(v, Res::Id::iv_cyro_raytracer_page_img);
+        auto left_panel = findView<ukive::View>(v, Res::Id::ll_cyro_raytracer_page_left_panel);
         left_panel->setBackground(new ukive::ColorElement(ukive::Color::Grey100));
 
         light_source_ = new RTLightListSource();
 
-        light_list_ = findViewById<ukive::ListView>(v, Res::Id::lv_cyro_raytracer_page_lights);
+        light_list_ = findView<ukive::ListView>(v, Res::Id::lv_cyro_raytracer_page_lights);
         light_list_->setSource(light_source_);
         light_list_->setLayouter(new ukive::LinearListLayouter());
         light_list_->setBackground(new ukive::ColorElement(ukive::Color::Grey300));
@@ -48,7 +48,7 @@ namespace cyro {
 
         polygon_source_ = new RTPolygonListSource();
 
-        polygon_list_ = findViewById<ukive::ListView>(v, Res::Id::lv_cyro_raytracer_page_polygons);
+        polygon_list_ = findView<ukive::ListView>(v, Res::Id::lv_cyro_raytracer_page_polygons);
         polygon_list_->setSource(polygon_source_);
         polygon_list_->setLayouter(new ukive::LinearListLayouter());
         polygon_list_->setBackground(new ukive::ColorElement(ukive::Color::Grey300));
@@ -99,13 +99,13 @@ namespace cyro {
         ukive::ListItem* item, ukive::View* v)
     {
         if (polygon_list_ == list_view) {
-            polygon_source_->selectItem(item->data_pos);
+            polygon_source_->selectItem(int(item->data_pos));
             polygon_source_->notifyDataChanged();
 
             light_source_->selectItem(-1);
             light_source_->notifyDataChanged();
         } else if (light_list_ == list_view) {
-            light_source_->selectItem(item->data_pos);
+            light_source_->selectItem(int(item->data_pos));
             light_source_->notifyDataChanged();
 
             polygon_source_->selectItem(-1);

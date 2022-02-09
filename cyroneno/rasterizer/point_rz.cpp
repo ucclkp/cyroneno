@@ -6,6 +6,8 @@
 
 #include "point_rz.h"
 
+#include <cmath>
+
 
 namespace cyro {
 

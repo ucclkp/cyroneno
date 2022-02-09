@@ -68,7 +68,7 @@ namespace cyro {
                 } else {
                     if (isPoint2Equal(p, it->p1)) {
                         auto into = getPartInto(part, is_start);
-                        DCHECK(into != INTO_UNKNOWN);
+                        ubassert(into != INTO_UNKNOWN);
                         if (into != it->into1) {
                             it = its.erase(it);
                         }
@@ -187,7 +187,7 @@ namespace cyro {
                 mgr->addPoint(part, false);
             } else {
                 auto into = IntersectionManager::getPointsInto(part.s, part.e);
-                DCHECK(into != IntersectionManager::INTO_UNKNOWN);
+                ubassert(into != IntersectionManager::INTO_UNKNOWN);
                 if (into == IntersectionManager::INTO_IN) {
                     ++(*count);
                 } else {
@@ -332,7 +332,7 @@ namespace cyro {
 
             if (first) {
                 prev = *it;
-                DCHECK(prev.into == INTO_IN);
+                ubassert(prev.into == INTO_IN);
                 first = false;
                 continue;
             }
@@ -432,8 +432,8 @@ namespace cyro {
 
         for (const auto& in : mgr.its) {
             if (in.is_two) {
-                DCHECK(in.into1 != INTO_UNKNOWN);
-                DCHECK(in.into2 != INTO_UNKNOWN);
+                ubassert(in.into1 != INTO_UNKNOWN);
+                ubassert(in.into2 != INTO_UNKNOWN);
                 if (in.into1 == in.into2) {
                     if (in.into1 == INTO_IN) {
                         ++count;
@@ -442,7 +442,7 @@ namespace cyro {
                     }
                 }
             } else {
-                DCHECK(in.into1 != INTO_UNKNOWN);
+                ubassert(in.into1 != INTO_UNKNOWN);
                 if (in.into1 == INTO_IN) {
                     ++count;
                 } else {

@@ -222,7 +222,7 @@ namespace cyro {
                     ++ct_index;
                 }
 
-                int rv_size = polygon.t_vertices_4d.size();
+                int rv_size = int(polygon.t_vertices_4d.size());
                 for (const auto& index : polygon.cgti) {
                     Point2 tri_pts[3];
                     for (int i = 0; i < 3; ++i) {
@@ -442,7 +442,7 @@ namespace cyro {
         clipEdge(cp, p0_tmp, p2_org, &c02);
         clipEdge(cp, p1_tmp, p2_tmp, &c12);
 
-        int n = polygon->vertices.size() + polygon->cgtv_3d.size();
+        int n = int(polygon->vertices.size() + polygon->cgtv_3d.size());
         if (c01 == 2 && c12 == 1) {
             if (indices) {
                 // + (0, 1, 2)
@@ -556,7 +556,7 @@ namespace cyro {
         clipEdge(cp, p0_tmp, p2_org, &c02);
         clipEdge(cp, p1_tmp, p2_tmp, &c12);
 
-        int n = polygon->t_vertices_4d.size() + polygon->cgtv_4d.size();
+        int n = int(polygon->t_vertices_4d.size() + polygon->cgtv_4d.size());
         if (c01 == 2 && c12 == 1) {
             if (indices) {
                 // + (0, 1, 2)

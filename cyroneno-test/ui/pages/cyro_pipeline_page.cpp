@@ -32,7 +32,7 @@ namespace cyro {
 
         v->setBackground(new ukive::ColorElement(ukive::Color(0.5f, 0.5f, 0.5f)));
 
-        img_view_ = findViewById<ukive::ImageView>(v, Res::Id::iv_cyro_pipeline_page_img);
+        img_view_ = findView<ukive::ImageView>(v, Res::Id::iv_cyro_pipeline_page_img);
         return v;
     }
 

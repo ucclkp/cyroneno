@@ -7,6 +7,7 @@
 #ifndef CYRONENO_TEST_UI_RAY_TRACER_RT_POLYGON_LIST_SOURCE_H_
 #define CYRONENO_TEST_UI_RAY_TRACER_RT_POLYGON_LIST_SOURCE_H_
 
+#include <string>
 #include <vector>
 
 #include "ukive/views/list/list_item.h"
