@@ -6,8 +6,7 @@
 
 #include "cyroneno-test/ui/ray_tracer/rt_polygon_list_source.h"
 
-#include "utils/convert.h"
-#include "utils/number.hpp"
+#include "utils/numbers.hpp"
 
 #include "ukive/views/image_view.h"
 #include "ukive/views/text_view.h"

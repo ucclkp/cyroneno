@@ -70,7 +70,7 @@ namespace cyro {
 
             ::SendMessageW(
                 dbg_win, WM_COPYDATA,
-                WPARAM(static_cast<ukive::WindowImplWin*>(getWindow()->getImpl())->getHandle()),
+                WPARAM(static_cast<ukive::win::WindowImplWin*>(getWindow()->getImpl())->getHandle()),
                 LPARAM(&cds));
         }
     }

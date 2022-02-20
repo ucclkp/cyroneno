@@ -6,7 +6,7 @@
 
 #include "cmap.h"
 
-#include "utils/number.hpp"
+#include "utils/numbers.hpp"
 
 #include "utils/stream_utils.h"
 

@@ -6,8 +6,7 @@
 
 #include "cyroneno-test/ui/pages/cyro_text_rz_page.h"
 
-#include "utils/convert.h"
-#include "utils/int_conv.hpp"
+#include "utils/strings/int_conv.hpp"
 
 #include "ukive/elements/color_element.h"
 #include "ukive/elements/texteditor_element.h"
