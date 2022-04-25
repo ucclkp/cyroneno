@@ -10,6 +10,7 @@
 #include "ukive/resources/layout_instantiator.h"
 #include "ukive/views/image_view.h"
 #include "ukive/views/layout/layout_view.h"
+#include "ukive/window/window.h"
 
 #include "cyroneno/pipeline/pipeline.h"
 
@@ -54,9 +55,9 @@ namespace cyro {
         /*ukive::Application::getWICManager()->saveToPngFile(
             IMAGE_WIDTH, IMAGE_HEIGHT, img_data_ptr, L"test.png");*/
 
-        img_.reset(ukive::ImageFrame::create(
-            getWindow(), IMAGE_WIDTH, IMAGE_HEIGHT,
-            img_data_ptr, IMAGE_WIDTH * IMAGE_HEIGHT * 4, IMAGE_WIDTH * 4));
+        auto bd = ukive::ByteData::refPtr(img_data_ptr, IMAGE_WIDTH * IMAGE_HEIGHT * 4);
+        img_ = ukive::ImageFrame::create(
+            getWindow()->getCanvas(), IMAGE_WIDTH, IMAGE_HEIGHT, bd, IMAGE_WIDTH * 4);
     }
 
 }

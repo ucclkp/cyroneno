@@ -11,6 +11,7 @@
 #include "ukive/views/image_view.h"
 #include "ukive/views/text_view.h"
 #include "ukive/views/list/linear_list_layouter.h"
+#include "ukive/window/window.h"
 
 #include "cyroneno-test/ui/ray_tracer/rt_light_list_source.h"
 #include "cyroneno-test/ui/ray_tracer/rt_polygon_list_source.h"
@@ -82,9 +83,9 @@ namespace cyro {
         }
 
         auto img_data_ptr = reinterpret_cast<uint8_t*>(image_->data);
-        bmp_.reset(ukive::ImageFrame::create(
-            getWindow(), IMAGE_WIDTH, IMAGE_HEIGHT,
-            img_data_ptr, IMAGE_WIDTH * IMAGE_HEIGHT * 4, IMAGE_WIDTH * 4));
+        auto bd = ukive::ByteData::refPtr(img_data_ptr, IMAGE_WIDTH * IMAGE_HEIGHT * 4);
+        bmp_ = ukive::ImageFrame::create(
+            getWindow()->getCanvas(), IMAGE_WIDTH, IMAGE_HEIGHT, bd, IMAGE_WIDTH * 4);
         img_view_->setImage(bmp_);
     }
 

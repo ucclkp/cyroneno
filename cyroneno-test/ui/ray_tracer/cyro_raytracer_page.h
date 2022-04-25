@@ -56,7 +56,7 @@ namespace cyro {
 
         ukive::ImageView* img_view_ = nullptr;
 
-        std::shared_ptr<ukive::ImageFrame> bmp_;
+        ukive::GPtr<ukive::ImageFrame> bmp_;
         RayTracer ray_tracer_;
         std::unique_ptr<ImageBGRAInt> image_;
     };

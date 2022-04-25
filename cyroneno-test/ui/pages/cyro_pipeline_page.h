@@ -28,7 +28,7 @@ namespace cyro {
         void testExamples();
 
         ukive::ImageView* img_view_ = nullptr;
-        std::shared_ptr<ukive::ImageFrame> img_;
+        ukive::GPtr<ukive::ImageFrame> img_;
     };
 
 }

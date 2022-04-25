@@ -6,7 +6,7 @@
 
 #include "opentype_font.h"
 
-#include "utils/number.hpp"
+#include "utils/numbers.hpp"
 #include "utils/stream_utils.h"
 
 #include "tables/loca.h"

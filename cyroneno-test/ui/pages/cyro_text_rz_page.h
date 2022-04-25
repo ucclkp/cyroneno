@@ -54,7 +54,7 @@ namespace cyro {
         ukive::CheckBox* outline_cb_ = nullptr;
         ukive::GridView* grid_view_ = nullptr;
         ukive::ImageView* img_view_ = nullptr;
-        std::shared_ptr<ukive::ImageFrame> img_;
+        ukive::GPtr<ukive::ImageFrame> img_;
     };
 
 }

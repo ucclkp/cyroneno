@@ -79,8 +79,8 @@ namespace cyro {
             //super::drawLine(p0, p1, thick, thick_type, c);
             auto context = view_->getContext();
             view_->addLine(
-                ukive::PointD(p0.x, p0.y),
-                ukive::PointD(p1.x, p1.y),
+                ukive::PointD{ p0.x, p0.y },
+                ukive::PointD{ p1.x, p1.y },
                 ukive::Color::Black);
         }
 
@@ -88,8 +88,8 @@ namespace cyro {
             //super::drawLineSeg(p0, p1, c);
             auto context = view_->getContext();
             view_->addLine(
-                ukive::PointD(p0.x, p0.y),
-                ukive::PointD(p1.x, p1.y),
+                ukive::PointD{ p0.x, p0.y },
+                ukive::PointD{ p1.x, p1.y },
                 ukive::Color::Green400);
             view_->addPoint(p0.x, p0.y, context.dp2pxi(3), ukive::Color::Green400,
                 utl::itos16(index_), ukive::Color::Green400);
@@ -102,9 +102,9 @@ namespace cyro {
             //super::drawQuadBezier(p1, p2, p3, c);
             auto context = view_->getContext();
             view_->addQBezierLine(
-                ukive::PointD(p1.x, p1.y),
-                ukive::PointD(p2.x, p2.y),
-                ukive::PointD(p3.x, p3.y),
+                ukive::PointD{ p1.x, p1.y },
+                ukive::PointD{ p2.x, p2.y },
+                ukive::PointD{ p3.x, p3.y },
                 ukive::Color::Pink200);
             view_->addPoint(p1.x, p1.y, context.dp2pxi(3), ukive::Color::Pink200,
                 utl::itos16(index_), ukive::Color::Pink200);
@@ -233,9 +233,9 @@ namespace cyro {
         /*ukive::Application::getImageComponent()->saveToPNGFile(
             width, height, img_data_ptr, u"test.png");*/
 
-        img_.reset(ukive::ImageFrame::create(
-            getWindow(), width, height,
-            img_data_ptr, width * height * 4, width * 4));
+        auto bd = ukive::ByteData::refPtr(img_data_ptr, width * height * 4);
+        img_ = ukive::ImageFrame::create(
+            getWindow()->getCanvas(), width, height, bd, width * 4);
         img_view_->setImage(img_);
     }
 
