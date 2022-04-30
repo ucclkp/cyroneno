@@ -69,7 +69,7 @@ namespace cyro {
 
         void clipTrianglesBefore(
             double left, double right, double top, double bottom, double near, double far,
-            const Vector3& eye, const Vector3& look, const Vector3& up);
+            const Point3& eye, const Vector3& look, const Vector3& up);
         void clipTrianglesAfter(
             double left, double right, double top, double bottom, double near, double far,
             bool is_persp);

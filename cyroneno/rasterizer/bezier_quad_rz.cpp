@@ -19,10 +19,10 @@ namespace cyro {
     void BezierQuadRz::draw(
         const Point2I& p1, const Point2I& p2, const Point2I& p3, const Color4D& c, Target* target)
     {
-        const int x2 = p2.x - p1.x;
-        const int y2 = p2.y - p1.y;
-        const int x3 = p3.x - p1.x;
-        const int y3 = p3.y - p1.y;
+        const int x2 = p2.x() - p1.x();
+        const int y2 = p2.y() - p1.y();
+        const int x3 = p3.x() - p1.x();
+        const int y3 = p3.y() - p1.y();
 
         const double z_pred = y2 * (y2 - y3);
         const double p_pred = x2 * (x2 - x3);
@@ -42,41 +42,41 @@ namespace cyro {
 
         if (z_pred > 0 && p_pred > 0) {
             if (tp <= tz) {
-                Point2I p1_p(int(std::round(xp + p1.x)), int(std::round(xp*y2 / x2 + p1.y)));
-                Point2I pp(int(std::round(xp + p1.x)), int(std::round(yp + p1.y)));
+                Point2I p1_p{ int(std::round(xp + p1.x())), int(std::round(xp * y2 / x2 + p1.y())) };
+                Point2I pp{ int(std::round(xp + p1.x())), int(std::round(yp + p1.y())) };
                 drawSegment(p1, p1_p, pp, c, target);
 
-                Point2I pp_z(int(std::round(xp + p1.x)), int(std::round(yz + p1.y)));
-                Point2I pz(int(std::round(xz + p1.x)), int(std::round(yz + p1.y)));
+                Point2I pp_z{ int(std::round(xp + p1.x())), int(std::round(yz + p1.y())) };
+                Point2I pz{ int(std::round(xz + p1.x())), int(std::round(yz + p1.y())) };
                 drawSegment(pp, pp_z, pz, c, target);
 
-                Point2I pz_3(int(std::round(x3 - (y3 - yz)*(x3 - x2) / (y3 - y2) + p1.x)), int(std::round(yz + p1.y)));
+                Point2I pz_3{ int(std::round(x3 - (y3 - yz) * (x3 - x2) / (y3 - y2) + p1.x())), int(std::round(yz + p1.y())) };
                 drawSegment(pz, pz_3, p3, c, target);
             } else {
-                Point2I p1_z(int(std::round((yz - y2)*x2 / y2 + x2 + p1.x)), int(std::round(yz + p1.y)));
-                Point2I pz(int(std::round(xz + p1.x)), int(std::round(yz + p1.y)));
+                Point2I p1_z{ int(std::round((yz - y2) * x2 / y2 + x2 + p1.x())), int(std::round(yz + p1.y())) };
+                Point2I pz{ int(std::round(xz + p1.x())), int(std::round(yz + p1.y())) };
                 drawSegment(p1, p1_z, pz, c, target);
 
-                Point2I pz_p(int(std::round(xp + p1.x)), int(std::round(yz + p1.y)));
-                Point2I pp(int(std::round(xp + p1.x)), int(std::round(yp + p1.y)));
+                Point2I pz_p{ int(std::round(xp + p1.x())), int(std::round(yz + p1.y())) };
+                Point2I pp{ int(std::round(xp + p1.x())), int(std::round(yp + p1.y())) };
                 drawSegment(pz, pz_p, pp, c, target);
 
-                Point2I pp_3(int(std::round(xp + p1.x)), int(std::round(y2 + (xp - x2)*(y3 - y2) / (x3 - x2) + p1.y)));
+                Point2I pp_3{ int(std::round(xp + p1.x())), int(std::round(y2 + (xp - x2) * (y3 - y2) / (x3 - x2) + p1.y())) };
                 drawSegment(pp, pp_3, p3, c, target);
             }
         } else if (p_pred > 0) {
-            Point2I p1_p(int(std::round(xp + p1.x)), int(std::round(xp*y2 / x2 + p1.y)));
-            Point2I pp(int(std::round(xp + p1.x)), int(std::round(yp + p1.y)));
+            Point2I p1_p{ int(std::round(xp + p1.x())), int(std::round(xp * y2 / x2 + p1.y())) };
+            Point2I pp{ int(std::round(xp + p1.x())), int(std::round(yp + p1.y())) };
             drawSegment(p1, p1_p, pp, c, target);
 
-            Point2I pp_3(int(std::round(xp + p1.x)), int(std::round(y2 + (xp - x2)*(y3 - y2) / (x3 - x2) + p1.y)));
+            Point2I pp_3{ int(std::round(xp + p1.x())), int(std::round(y2 + (xp - x2) * (y3 - y2) / (x3 - x2) + p1.y())) };
             drawSegment(pp, pp_3, p3, c, target);
         } else if (z_pred > 0) {
-            Point2I p1_z(int(std::round((yz - y2)*x2 / y2 + x2 + p1.x)), int(std::round(yz + p1.y)));
-            Point2I pz(int(std::round(xz + p1.x)), int(std::round(yz + p1.y)));
+            Point2I p1_z{ int(std::round((yz - y2) * x2 / y2 + x2 + p1.x())), int(std::round(yz + p1.y())) };
+            Point2I pz{ int(std::round(xz + p1.x())), int(std::round(yz + p1.y())) };
             drawSegment(p1, p1_z, pz, c, target);
 
-            Point2I pz_3(int(std::round(x3 - (y3 - yz)*(x3 - x2) / (y3 - y2) + p1.x)), int(std::round(yz + p1.y)));
+            Point2I pz_3{ int(std::round(x3 - (y3 - yz) * (x3 - x2) / (y3 - y2) + p1.x())), int(std::round(yz + p1.y())) };
             drawSegment(pz, pz_3, p3, c, target);
         } else {
             drawSegment(p1, p2, p3, c, target);
@@ -102,13 +102,13 @@ namespace cyro {
         int x0, y0;
         int x2, y2;
         bool is_swapped;
-        if ((p2 - p1).lengthSq() >= (p3 - p2).lengthSq()) {
-            x0 = p1.x - p2.x, y0 = p1.y - p2.y;
-            x2 = p3.x - p2.x, y2 = p3.y - p2.y;
+        if ((p2 - p1).lengsq() >= (p3 - p2).lengsq()) {
+            x0 = p1.x() - p2.x(), y0 = p1.y() - p2.y();
+            x2 = p3.x() - p2.x(), y2 = p3.y() - p2.y();
             is_swapped = false;
         } else {
-            x0 = p3.x - p2.x, y0 = p3.y - p2.y;
-            x2 = p1.x - p2.x, y2 = p1.y - p2.y;
+            x0 = p3.x() - p2.x(), y0 = p3.y() - p2.y();
+            x2 = p1.x() - p2.x(), y2 = p1.y() - p2.y();
             is_swapped = true;
         }
 
@@ -150,7 +150,7 @@ namespace cyro {
                 }
 
                 if (!is_swapped) {
-                    PointRz::draw(xk + p2.x, yk + p2.y, c, target);
+                    PointRz::draw(xk + p2.x(), yk + p2.y(), c, target);
                 }
 
                 double exy = ek;
@@ -196,15 +196,15 @@ namespace cyro {
                 }
 
                 if (is_swapped) {
-                    PointRz::draw(xk + p2.x, yk + p2.y, c, target);
+                    PointRz::draw(xk + p2.x(), yk + p2.y(), c, target);
                 }
             }
         }
 
         if (is_swapped) {
-            LineRz::drawSeg(p1, Point2I(xk + p2.x, yk + p2.y), c, target);
+            LineRz::drawSeg(p1, Point2I{ xk + p2.x(), yk + p2.y() }, c, target);
         } else {
-            LineRz::drawSeg(Point2I(xk + p2.x, yk + p2.y), p3, c, target);
+            LineRz::drawSeg(Point2I{ xk + p2.x(), yk + p2.y() }, p3, c, target);
         }
     }
 
@@ -212,8 +212,8 @@ namespace cyro {
         const Point2& p1, const Point2& p2, const Point2& p3, const Color4D& c, Target* target)
     {
         for (double i = 0; i < 1; i += 0.05) {
-            double xk = (1 - i)*(1 - i)*p1.x + 2 * (1 - i)*i*p2.x + i * i*p3.x;
-            double yk = (1 - i)*(1 - i)*p1.y + 2 * (1 - i)*i*p2.y + i * i*p3.y;
+            double xk = (1 - i)*(1 - i)*p1.x() + 2 * (1 - i)*i*p2.x() + i * i*p3.x();
+            double yk = (1 - i)*(1 - i)*p1.y() + 2 * (1 - i)*i*p2.y() + i * i*p3.y();
             PointRz::draw(int(xk), int(yk), c, target);
         }
     }
@@ -225,19 +225,19 @@ namespace cyro {
     {
         double w_2 = w1 * w1 / (w0*w2);
 
-        double xk = p1.x;
-        double yk = p1.y;
+        double xk = p1.x();
+        double yk = p1.y();
         for (double i = 0; i < 1; i += 0.05) {
             double de = (1 - i)*(1 - i)*w0 + 2 * (1 - i)*i*w1 + i * i*w2;
 
-            double t_xk = ((1 - i)*(1 - i)*w0*p1.x + 2 * (1 - i)*i*w1*p2.x + i * i*w2*p3.x) / de;
-            double t_yk = ((1 - i)*(1 - i)*w0*p1.y + 2 * (1 - i)*i*w1*p2.y + i * i*w2*p3.y) / de;
+            double t_xk = ((1 - i)*(1 - i)*w0*p1.x() + 2 * (1 - i)*i*w1*p2.x() + i * i*w2*p3.x()) / de;
+            double t_yk = ((1 - i)*(1 - i)*w0*p1.y() + 2 * (1 - i)*i*w1*p2.y() + i * i*w2*p3.y()) / de;
 
             t_xk = std::round(t_xk);
             t_yk = std::round(t_yk);
 
             //PointRz::draw(xk, yk, c, target);
-            LineRz::drawSeg(Point2I(int(xk), int(yk)), Point2I(int(t_xk), int(t_yk)), c, target);
+            LineRz::drawSeg(Point2I{ int(xk), int(yk) }, Point2I{ int(t_xk), int(t_yk) }, c, target);
 
             xk = t_xk;
             yk = t_yk;

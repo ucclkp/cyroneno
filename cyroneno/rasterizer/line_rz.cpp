@@ -35,17 +35,17 @@ namespace cyro {
         if (thick < 1) {
             return;
         }
-        int dx = std::abs(p1.x - p0.x);
-        int dy = std::abs(p1.y - p0.y);
+        int dx = std::abs(p1.x() - p0.x());
+        int dy = std::abs(p1.y() - p0.y());
         if (dx == 0 && dy == 0) {
             return;
         }
 
-        int x_inc = sgn(p1.x - p0.x);
-        int y_inc = sgn(p1.y - p0.y);
+        int x_inc = sgn(p1.x() - p0.x());
+        int y_inc = sgn(p1.y() - p0.y());
 
-        int xk = p0.x;
-        int yk = p0.y;
+        int xk = p0.x();
+        int yk = p0.y();
         int ek = dx - dy;
 
         int x_off, y_off;
@@ -91,13 +91,13 @@ namespace cyro {
             int ex = exy + dy;
             int ey = exy - dx;
             if (ex + exy >= zeroOne(y_inc)) {
-                if (xk == p1.x) return;
+                if (xk == p1.x()) return;
                 xk += x_inc;
                 // 将误差值移动至新的对角线像素
                 ek -= dy;
             }
             if (ey + exy <= -zeroOne(y_inc)) {
-                if (yk == p1.y) return;
+                if (yk == p1.y()) return;
                 yk += y_inc;
                 // 将误差值移动至新的对角线像素
                 ek += dx;
@@ -108,8 +108,8 @@ namespace cyro {
     void LineRz::drawSeg(
         const Point2I& p0, const Point2I& p1, const Color4D& c, Target* target)
     {
-        int x0 = p0.x, y0 = p0.y;
-        int x1 = p1.x, y1 = p1.y;
+        int x0 = p0.x(), y0 = p0.y();
+        int x1 = p1.x(), y1 = p1.y();
 
         int dx = std::abs(x1 - x0);
         int dy = std::abs(y1 - y0);
@@ -148,27 +148,27 @@ namespace cyro {
         const Point2& p0, const Point2& p1,
         double thick, const Color4D& c, Target* target)
     {
-        double dx = std::abs(p1.x - p0.x);
-        double dy = std::abs(p1.y - p0.y);
+        double dx = std::abs(p1.x() - p0.x());
+        double dy = std::abs(p1.y() - p0.y());
         if (dx < std::numeric_limits<double>::epsilon() &&
             dy < std::numeric_limits<double>::epsilon())
         {
             return;
         }
 
-        int x_sign = sgn2(p1.x - p0.x);
-        int y_sign = sgn2(p1.y - p0.y);
+        int x_sign = sgn2(p1.x() - p0.x());
+        int y_sign = sgn2(p1.y() - p0.y());
 
-        int xk = int(x_sign == 1 ? std::floor(p0.x) : std::ceil(p0.x));
-        int yk = int(y_sign == 1 ? std::floor(p0.y) : std::ceil(p0.y));
-        int x1 = int(x_sign == 1 ? std::ceil(p1.x) : std::floor(p1.x));
-        int y1 = int(y_sign == 1 ? std::ceil(p1.y) : std::floor(p1.y));
+        int xk = int(x_sign == 1 ? std::floor(p0.x()) : std::ceil(p0.x()));
+        int yk = int(y_sign == 1 ? std::floor(p0.y()) : std::ceil(p0.y()));
+        int x1 = int(x_sign == 1 ? std::ceil(p1.x()) : std::floor(p1.x()));
+        int y1 = int(y_sign == 1 ? std::ceil(p1.y()) : std::floor(p1.y()));
 
         int x_inc = sgn(x1 - xk);
         int y_inc = sgn(y1 - yk);
 
         // 初始误差
-        double ek = dx * (yk - p0.y)*y_sign - dy * (xk - p0.x)*x_sign + (dx - dy);
+        double ek = dx * (yk - p0.y())*y_sign - dy * (xk - p0.x())*x_sign + (dx - dy);
 
         // 等式两边因子为 1 时的门限值
         double th = std::sqrt(dx*dx + dy*dy);
@@ -188,8 +188,8 @@ namespace cyro {
                 double tmp_e = cur_e - dx * count;
                 double ex_a;
                 // 处理浮点数头/尾
-                if ((xk - p0.x)*x_sign < 0) ex_a = 1 - std::abs(p0.x - xk);
-                else if ((xk - p1.x)*x_sign > 0) ex_a = 1 - std::abs(p1.x - xk);
+                if ((xk - p0.x())*x_sign < 0) ex_a = 1 - std::abs(p0.x() - xk);
+                else if ((xk - p1.x())*x_sign > 0) ex_a = 1 - std::abs(p1.x() - xk);
                 else ex_a = 1;
 
                 int y = yk - y_sign * count;
@@ -204,8 +204,8 @@ namespace cyro {
                 double tmp_e = cur_e + dy * count;
                 double ex_a;
                 // 处理浮点数头/尾
-                if ((yk - p0.y)*y_sign < 0) ex_a = 1 - std::abs(p0.y - yk);
-                else if ((yk - p1.y)*y_sign > 0) ex_a = 1 - std::abs(p1.y - yk);
+                if ((yk - p0.y())*y_sign < 0) ex_a = 1 - std::abs(p0.y() - yk);
+                else if ((yk - p1.y())*y_sign > 0) ex_a = 1 - std::abs(p1.y() - yk);
                 else ex_a = 1;
 
                 int x = xk - x_sign * count;

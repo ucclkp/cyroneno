@@ -13,10 +13,10 @@ namespace cyro {
 
     // Line2DEqu
     Line2DEqu::Line2DEqu(const Point2& p0, const Point2& p1)
-        : a_(p0.y - p1.y),
-          b_(p1.x - p0.x),
-          c_(p0.x * p1.y - p1.x * p0.y),
-          m_((p1.y - p0.y) / (p1.x - p0.x)) {
+        : a_(p0.y() - p1.y()),
+          b_(p1.x() - p0.x()),
+          c_(p0.x()* p1.y() - p1.x() * p0.y()),
+          m_((p1.y() - p0.y()) / (p1.x() - p0.x())) {
     }
 
     double Line2DEqu::cal(double x, double y) const {
@@ -66,18 +66,18 @@ namespace cyro {
 
     // PlaneEqu
     PlaneEqu::PlaneEqu(const Vector3& n, const Point3& q)
-        : d_(-(n * q.toVector())), n_(n) {}
+        : d_(-(n * q.vec())), n_(n) {}
 
     double PlaneEqu::cal(const Point3& p) const {
-        return n_ * p.toVector() + d_;
+        return n_ * p.vec() + d_;
     }
 
     // PlaneEqu4D
     PlaneEqu4D::PlaneEqu4D(const Vector4& n, const Point4& q)
-        : d_(-(n * q.toVector())), n_(n) {}
+        : d_(-(n * q.vec())), n_(n) {}
 
     double PlaneEqu4D::cal(const Point4& p) const {
-        return n_ * p.toVector() + d_;
+        return n_ * p.vec() + d_;
     }
 
 }

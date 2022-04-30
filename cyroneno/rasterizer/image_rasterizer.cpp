@@ -30,9 +30,9 @@ namespace cyro {
     void ImageRasterizer::drawPoint(const Point2& p, const Color4D& c) {
         auto tp = matrix_ * p;
         if (is_antialiased_) {
-            PointRz::drawAA(tp.x, tp.y, c, target_);
+            PointRz::drawAA(tp.x(), tp.y(), c, target_);
         } else {
-            PointRz::draw(int(tp.x), int(tp.y), c, target_);
+            PointRz::draw(int(tp.x()), int(tp.y()), c, target_);
         }
     }
 
@@ -43,12 +43,17 @@ namespace cyro {
         if (is_antialiased_) {
             LineRz::drawAA(matrix_*p0, matrix_*p1, thick, c, target_);
         } else {
-            LineRz::draw(matrix_*p0, matrix_*p1, int(thick), thick_type, c, target_);
+            LineRz::draw(
+                static_cast<Point2I>(matrix_*p0),
+                static_cast<Point2I>(matrix_*p1),
+                int(thick), thick_type, c, target_);
         }
     }
 
     void ImageRasterizer::drawLineSeg(const Point2& p0, const Point2& p1, const Color4D& c) {
-        LineRz::drawSeg(matrix_*p0, matrix_*p1, c, target_);
+        LineRz::drawSeg(
+            static_cast<Point2I>(matrix_*p0),
+            static_cast<Point2I>(matrix_*p1), c, target_);
     }
 
     void ImageRasterizer::drawCircle(
@@ -56,17 +61,22 @@ namespace cyro {
         double thick, int thick_type, const Color4D& c)
     {
         //CircleRz::draw(center, int(r), c, &image_);
-        CircleRz::draw(center, int(r), int(thick), thick_type, c, target_);
+        CircleRz::draw(
+            static_cast<Point2I>(center), int(r), int(thick), thick_type, c, target_);
     }
 
     void ImageRasterizer::drawEllipse(const Point2& center, double a, double b, const Color4D& c) {
-        CircleRz::drawEllipse(center, int(a), int(b), c, target_);
+        CircleRz::drawEllipse(
+            static_cast<Point2I>(center), int(a), int(b), c, target_);
     }
 
     void ImageRasterizer::drawQuadBezier(
         const Point2& p1, const Point2& p2, const Point2& p3, const Color4D& c)
     {
-        BezierQuadRz::draw(p1, p2, p3, c, target_);
+        BezierQuadRz::draw(
+            static_cast<Point2I>(p1),
+            static_cast<Point2I>(p2),
+            static_cast<Point2I>(p3), c, target_);
     }
 
     void ImageRasterizer::drawQuadBezier(
@@ -80,14 +90,21 @@ namespace cyro {
     void ImageRasterizer::drawCubicBezier(
         const Point2& p1, const Point2& p2, const Point2& p3, const Point2& p4, const Color4D& c)
     {
-        BezierCubicRz::draw(matrix_*p1, matrix_*p2, matrix_*p3, matrix_*p4, c, target_);
+        BezierCubicRz::draw(
+            static_cast<Point2I>(matrix_*p1),
+            static_cast<Point2I>(matrix_*p2),
+            static_cast<Point2I>(matrix_*p3),
+            static_cast<Point2I>(matrix_*p4), c, target_);
     }
 
     void ImageRasterizer::drawTriangle(
         const Point2& p0, const Point2& p1, const Point2& p2,
         const Color4D& c0, const Color4D& c1, const Color4D& c2)
     {
-        TriangleRz::draw(p0, p1, p2, c0, c1, c2, target_);
+        TriangleRz::draw(
+            static_cast<Point2I>(p0),
+            static_cast<Point2I>(p1),
+            static_cast<Point2I>(p2), c0, c1, c2, target_);
     }
 
     void ImageRasterizer::save() {
@@ -102,7 +119,7 @@ namespace cyro {
     }
 
     void ImageRasterizer::translate(double dx, double dy) {
-        matrix_ = matrix_ * Matrix3x3::translate(dx, dy);
+        matrix_ = matrix_ * utl::math::translate3x3(dx, dy);
     }
 
 }

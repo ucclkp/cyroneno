@@ -36,7 +36,7 @@ namespace cyro {
     }
 
     bool isPoint2Equal(const Point2& p1, const Point2& p2) {
-        return IS_EQ(p1.x, p2.x) && IS_EQ(p1.y, p2.y);
+        return IS_EQ(p1.x(), p2.x()) && IS_EQ(p1.y(), p2.y());
     }
 
     class IntersectionManager {
@@ -133,8 +133,8 @@ namespace cyro {
         }
 
         static Into getPointsInto(const Point2& p1, const Point2& p2) {
-            if (IS_NEQ(p1.y, p2.y)) {
-                return p1.y > p2.y ? INTO_OUT : INTO_IN;
+            if (IS_NEQ(p1.y(), p2.y())) {
+                return p1.y() > p2.y() ? INTO_OUT : INTO_IN;
             }
             return INTO_UNKNOWN;
         }
@@ -147,17 +147,17 @@ namespace cyro {
         double x, double y,
         int32_t* count, IntersectionManager* mgr)
     {
-        auto ins_x = (1 - t)*(1 - t)*part.s.x + 2 * t*(1 - t)*part.m.x + t * t*part.e.x;
+        auto ins_x = (1 - t)*(1 - t)*part.s.x() + 2 * t*(1 - t)*part.m.x() + t * t*part.e.x();
         if (ins_x == x) {
             return true;
         }
         if (ins_x > x) {
-            if (IS_EQ(y, part.s.y)) {
+            if (IS_EQ(y, part.s.y())) {
                 mgr->addPoint(part, true);
-            } else if (IS_EQ(y, part.e.y)) {
+            } else if (IS_EQ(y, part.e.y())) {
                 mgr->addPoint(part, false);
             } else {
-                auto ne = (part.e.y + part.s.y - 2 * part.m.y)*t - part.s.y + part.m.y;
+                auto ne = (part.e.y() + part.s.y() - 2 * part.m.y())*t - part.s.y() + part.m.y();
                 if (IS_EZ(ne)) {
                     return false;
                 }
@@ -176,14 +176,14 @@ namespace cyro {
         double x, double y,
         int32_t* count, IntersectionManager* mgr)
     {
-        auto ins_x = (y - part.s.y) / (part.e.y - part.s.y) * (part.e.x - part.s.x) + part.s.x;
+        auto ins_x = (y - part.s.y()) / (part.e.y() - part.s.y()) * (part.e.x() - part.s.x()) + part.s.x();
         if (ins_x == x) {
             return true;
         }
         if (ins_x > x) {
-            if (IS_EQ(y, part.s.y)) {
+            if (IS_EQ(y, part.s.y())) {
                 mgr->addPoint(part, true);
-            } else if (IS_EQ(y, part.e.y)) {
+            } else if (IS_EQ(y, part.e.y())) {
                 mgr->addPoint(part, false);
             } else {
                 auto into = IntersectionManager::getPointsInto(part.s, part.e);
@@ -223,7 +223,7 @@ namespace cyro {
                     double x = interval;
                     for (int n = 0; n < sample; ++n) {
                         if (isInner(j + x, i + y)) {
-                            rz.drawPoint(Point2(j, i), Color4D(0, 0, 0, alpha));
+                            rz.drawPoint(Point2{ double(j), double(i) }, Color4D(0, 0, 0, alpha));
                         }
                         x += interval;
                     }
@@ -326,7 +326,7 @@ namespace cyro {
         Intersect prev{};
         for (auto it = its.begin(); it != its.end(); ++it) {
             if (it->into == INTO_UNKNOWN) {
-                rz.drawPoint(Point2(it->x, y), Color4D(0, 0, 0, 1));
+                rz.drawPoint(Point2{ it->x, y }, Color4D(0, 0, 0, 1));
                 continue;
             }
 
@@ -339,9 +339,9 @@ namespace cyro {
 
             if (prev.into == INTO_IN && it->into == INTO_OUT) {
                 if(prev.x == it->x) {
-                    rz.drawPoint(Point2(it->x, y), Color4D(0, 0, 0, 1));
+                    rz.drawPoint(Point2{ it->x, y }, Color4D(0, 0, 0, 1));
                 } else {
-                    rz.drawLine(Point2(prev.x, y), Point2(it->x, y), 1, THICK_START, Color4D(0, 0, 0, 1));
+                    rz.drawLine(Point2{ prev.x, y }, Point2{ it->x, y }, 1, THICK_START, Color4D(0, 0, 0, 1));
                 }
                 first = true;
             }
@@ -354,18 +354,18 @@ namespace cyro {
 
         for (const auto& cont : contours_) {
             for (const auto& part : cont.parts) {
-                if (!isInBounds(part.s.y, part.e.y, y)) {
+                if (!isInBounds(part.s.y(), part.e.y(), y)) {
                     continue;
                 }
 
                 if (!part.is_bezier) {
                     // 直线
-                    if (IS_EQ(part.s.y, part.e.y)) {
+                    if (IS_EQ(part.s.y(), part.e.y())) {
                         // 横线
-                        if (isInBounds(part.s.x, part.e.x, x)) {
+                        if (isInBounds(part.s.x(), part.e.x(), x)) {
                             return true;
                         }
-                        auto ins_x = std::min(part.s.x, part.e.x);
+                        auto ins_x = std::min(part.s.x(), part.e.x());
                         if (ins_x > x) {
                             mgr.addLinePoints(part);
                         }
@@ -376,17 +376,17 @@ namespace cyro {
                     }
                 } else {
                     // 二次贝塞尔曲线
-                    if (IS_EQ(part.e.y, part.s.y) && IS_EQ(part.e.y, part.m.y)) {
+                    if (IS_EQ(part.e.y(), part.s.y()) && IS_EQ(part.e.y(), part.m.y())) {
                         // 横线
-                        if (isInBounds(part.s.x, part.e.x, x)) {
+                        if (isInBounds(part.s.x(), part.e.x(), x)) {
                             return true;
                         }
-                        auto ins_x = std::min(part.s.x, part.e.x);
+                        auto ins_x = std::min(part.s.x(), part.e.x());
                         if (ins_x > x) {
                             mgr.addLinePoints(part);
                         }
                     } else {
-                        auto sigma = part.e.y + part.s.y - 2 * part.m.y;
+                        auto sigma = part.e.y() + part.s.y() - 2 * part.m.y();
                         if (IS_EZ(sigma)) {
                             // 退化为直线
                             if (lineInsect(part, x, y, &count, &mgr)) {
@@ -395,14 +395,14 @@ namespace cyro {
                             continue;
                         }
 
-                        auto delta = std::pow(part.m.y - part.s.y, 2) - sigma * (part.s.y - y);
+                        auto delta = std::pow(part.m.y() - part.s.y(), 2) - sigma * (part.s.y() - y);
                         if (delta < 0) {
                             // 没交点
                             continue;
                         }
                         if (delta == 0) {
                             // 一个交点
-                            auto t = -(part.m.y - part.s.y) / sigma;
+                            auto t = -(part.m.y() - part.s.y()) / sigma;
                             if (t >= 0 && t <= 1) {
                                 if (bezierInsect(part, t, x, y, &count, &mgr)) {
                                     return true;
@@ -412,14 +412,14 @@ namespace cyro {
                         }
 
                         // 两个交点
-                        auto t1 = (-(part.m.y - part.s.y) + std::sqrt(delta)) / sigma;
+                        auto t1 = (-(part.m.y() - part.s.y()) + std::sqrt(delta)) / sigma;
                         if (t1 >= 0 && t1 <= 1) {
                             if (bezierInsect(part, t1, x, y, &count, &mgr)) {
                                 return true;
                             }
                         }
 
-                        auto t2 = (-(part.m.y - part.s.y) - std::sqrt(delta)) / sigma;
+                        auto t2 = (-(part.m.y() - part.s.y()) - std::sqrt(delta)) / sigma;
                         if (t2 >= 0 && t2 <= 1) {
                             if (bezierInsect(part, t2, x, y, &count, &mgr)) {
                                 return true;
@@ -457,79 +457,79 @@ namespace cyro {
     bool GlyphRz::intersectH(double y, const Part& part, double* x) {
         if (!part.is_bezier) {
             // 直线
-            if (!isInBounds(part.s.y, part.e.y, y)) {
+            if (!isInBounds(part.s.y(), part.e.y(), y)) {
                 return false;
             }
 
-            if (IS_EQ(part.s.y, part.e.y)) {
-                *x = std::min(part.s.x, part.e.x);
+            if (IS_EQ(part.s.y(), part.e.y())) {
+                *x = std::min(part.s.x(), part.e.x());
             } else {
-                *x = (y - part.s.y) / (part.e.y - part.s.y) * (part.e.x - part.s.x) + part.s.x;
+                *x = (y - part.s.y()) / (part.e.y() - part.s.y()) * (part.e.x() - part.s.x()) + part.s.x();
             }
             return true;
         }
 
         // 二次贝塞尔曲线
-        if (!isInBounds(part.s.y, part.e.y, y)) {
+        if (!isInBounds(part.s.y(), part.e.y(), y)) {
             return false;
         }
 
-        if (IS_EQ(part.e.y, part.s.y) && IS_EQ(part.e.y, part.m.y)) {
+        if (IS_EQ(part.e.y(), part.s.y()) && IS_EQ(part.e.y(), part.m.y())) {
             // 横线
-            *x = std::min(part.s.x, part.e.x);
+            *x = std::min(part.s.x(), part.e.x());
             return true;
         }
 
-        auto sigma = part.e.y + part.s.y - 2 * part.m.y;
+        auto sigma = part.e.y() + part.s.y() - 2 * part.m.y();
         if (IS_EZ(sigma)) {
             // 退化为直线
-            if (IS_EQ(part.s.y, part.e.y)) {
-                *x = std::min(part.s.x, part.e.x);
+            if (IS_EQ(part.s.y(), part.e.y())) {
+                *x = std::min(part.s.x(), part.e.x());
             } else {
-                *x = (y - part.s.y) / (part.e.y - part.s.y) * (part.e.x - part.s.x) + part.s.x;
+                *x = (y - part.s.y()) / (part.e.y() - part.s.y()) * (part.e.x() - part.s.x()) + part.s.x();
             }
             return true;
         }
 
-        auto delta = std::pow(part.m.y - part.s.y, 2) - sigma * (part.s.y - y);
+        auto delta = std::pow(part.m.y() - part.s.y(), 2) - sigma * (part.s.y() - y);
         if (delta < 0) {
             // 没交点
             return false;
         }
         if (delta == 0) {
             // 一个交点
-            auto t = -(part.m.y - part.s.y) / sigma;
+            auto t = -(part.m.y() - part.s.y()) / sigma;
             if (t >= 0 && t <= 1) {
-                *x = (1 - t)*(1 - t)*part.s.x + 2 * t*(1 - t)*part.m.x + t * t*part.e.x;
+                *x = (1 - t)*(1 - t)*part.s.x() + 2 * t*(1 - t)*part.m.x() + t * t*part.e.x();
                 return true;
             }
             return false;
         }
 
         // 两个交点
-        auto t1 = (-(part.m.y - part.s.y) + std::sqrt(delta)) / sigma;
+        auto t1 = (-(part.m.y() - part.s.y()) + std::sqrt(delta)) / sigma;
         if (t1 >= 0 && t1 <= 1) {
-            *x = (1 - t1)*(1 - t1)*part.s.x + 2 * t1*(1 - t1)*part.m.x + t1 * t1*part.e.x;
+            *x = (1 - t1)*(1 - t1)*part.s.x() + 2 * t1*(1 - t1)*part.m.x() + t1 * t1*part.e.x();
             return true;
         }
 
-        auto t2 = (-(part.m.y - part.s.y) - std::sqrt(delta)) / sigma;
+        auto t2 = (-(part.m.y() - part.s.y()) - std::sqrt(delta)) / sigma;
         if (t2 >= 0 && t2 <= 1) {
-            *x = (1 - t2)*(1 - t2)*part.s.x + 2 * t2*(1 - t2)*part.m.x + t2 * t2*part.e.x;
+            *x = (1 - t2)*(1 - t2)*part.s.x() + 2 * t2*(1 - t2)*part.m.x() + t2 * t2*part.e.x();
             return true;
         }
         return false;
     }
 
     GlyphRz::Into GlyphRz::getInto(const Part& part) {
-        if (IS_NEZ(part.s.y - part.e.y)) {
-            return part.s.y > part.e.y ? INTO_OUT : INTO_IN;
+        if (IS_NEZ(part.s.y() - part.e.y())) {
+            return part.s.y() > part.e.y() ? INTO_OUT : INTO_IN;
         }
-        if (IS_NEZ(part.s.x - part.e.x)) {
-            if (IS_EZ(part.s.y - part.e.y)) {
+        if (IS_NEZ(part.s.x() - part.e.x())) {
+            if (IS_EZ(part.s.y() - part.e.y())) {
                 return INTO_IN;
             }
-            return part.s.x > part.e.x ? INTO_OUT : INTO_IN;
+            return part.s.x() > part.e.x() ? INTO_OUT : INTO_IN;
         }
         return INTO_UNKNOWN;
     }

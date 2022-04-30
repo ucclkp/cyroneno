@@ -11,7 +11,7 @@
 
 #include "rasterizer.h"
 #include "image_target.h"
-#include "../matrix.h"
+#include "../matrix.hpp"
 
 
 namespace cyro {

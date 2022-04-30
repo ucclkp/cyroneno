@@ -26,7 +26,6 @@
   <ItemGroup>
     <ClCompile Include="box.cpp" />
     <ClCompile Include="equations.cpp" />
-    <ClCompile Include="matrix.cpp" />
     <ClCompile Include="pipeline\pipeline.cpp">
       <Filter>pipeline</Filter>
     </ClCompile>
@@ -112,7 +111,7 @@
   <ItemGroup>
     <ClInclude Include="box.h" />
     <ClInclude Include="equations.h" />
-    <ClInclude Include="matrix.h" />
+    <ClInclude Include="matrix.hpp" />
     <ClInclude Include="point.hpp" />
     <ClInclude Include="vector.hpp" />
     <ClInclude Include="pipeline\pipeline.h">

@@ -23,9 +23,9 @@ namespace cyro {
         return;*/
 
         int x0 = 0, y0 = 0;
-        int x1 = p2.x - p1.x, y1 = p2.y - p1.y;
-        int x2 = p3.x - p1.x, y2 = p3.y - p1.y;
-        int x3 = p4.x - p1.x, y3 = p4.y - p1.y;
+        int x1 = p2.x() - p1.x(), y1 = p2.y() - p1.y();
+        int x2 = p3.x() - p1.x(), y2 = p3.y() - p1.y();
+        int x3 = p4.x() - p1.x(), y3 = p4.y() - p1.y();
 
         double xa = x0 - 3 * x1 + 3 * x2 - x3;
         double xb = x0 / 2.0 - x1 / 2.0 - x2 / 2.0 + x3 / 2.0;
@@ -93,15 +93,15 @@ namespace cyro {
         Point2I pp0(p1);
         for (int i = 0; i < ct; ++i) {
             double t2 = tn[i];
-            Point2I pp1(
-                int(std::round(-t2 * (t1*t1*xa - 2 * t1*xb + xc) + t1*t1*xb - 2 * t1*xc + xd + p1.x)),
-                int(std::round(-t2 * (t1*t1*ya - 2 * t1*yb + yc) + t1*t1*yb - 2 * t1*yc + yd + p1.y)));
-            Point2I pp2(
-                int(std::round(-t1 * (t2*t2*xa - 2 * t2*xb + xc) + t2*t2*xb - 2 * t2*xc + xd + p1.x)),
-                int(std::round(-t1 * (t2*t2*ya - 2 * t2*yb + yc) + t2*t2*yb - 2 * t2*yc + yd + p1.y)));
-            Point2I pp3(
-                int(std::round(-t2*t2*t2*xa + 3*t2*t2*xb - 3 * t2*xc + xd + p1.x)),
-                int(std::round(-t2*t2*t2*ya + 3*t2*t2*yb - 3 * t2*yc + yd + p1.y)));
+            Point2I pp1{
+                int(std::round(-t2 * (t1 * t1 * xa - 2 * t1 * xb + xc) + t1 * t1 * xb - 2 * t1 * xc + xd + p1.x())),
+                int(std::round(-t2 * (t1 * t1 * ya - 2 * t1 * yb + yc) + t1 * t1 * yb - 2 * t1 * yc + yd + p1.y())) };
+            Point2I pp2{
+                int(std::round(-t1 * (t2 * t2 * xa - 2 * t2 * xb + xc) + t2 * t2 * xb - 2 * t2 * xc + xd + p1.x())),
+                int(std::round(-t1 * (t2 * t2 * ya - 2 * t2 * yb + yc) + t2 * t2 * yb - 2 * t2 * yc + yd + p1.y())) };
+            Point2I pp3{
+                int(std::round(-t2 * t2 * t2 * xa + 3 * t2 * t2 * xb - 3 * t2 * xc + xd + p1.x())),
+                int(std::round(-t2 * t2 * t2 * ya + 3 * t2 * t2 * yb - 3 * t2 * yc + yd + p1.y())) };
             drawSegment(pp0, pp1, pp2, pp3, c, target);
 
             pp0 = pp3;
@@ -115,11 +115,11 @@ namespace cyro {
     {
         // TODO: 当前算法在绘制闭合曲线时可能会失败
 
-        int xs = p1.x, ys = p1.y;
+        int xs = p1.x(), ys = p1.y();
         int x0 = 0, y0 = 0;
-        int x1 = p2.x - xs, y1 = p2.y - ys;
-        int x2 = p3.x - xs, y2 = p3.y - ys;
-        int x3 = p4.x - xs, y3 = p4.y - ys;
+        int x1 = p2.x() - xs, y1 = p2.y() - ys;
+        int x2 = p3.x() - xs, y2 = p3.y() - ys;
+        int x3 = p4.x() - xs, y3 = p4.y() - ys;
 
         int xk = x0;
         int yk = y0;
@@ -244,24 +244,30 @@ namespace cyro {
             }
         }
 
-        LineRz::drawSeg(Point2I(xk + xs, yk + ys), Point2I(xe + xs, ye + ys), c, target);
+        LineRz::drawSeg(
+            Point2I{ xk + xs, yk + ys },
+            Point2I{ xe + xs, ye + ys },
+            c, target);
     }
 
     void BezierCubicRz::drawParam(
         const Point2& p1, const Point2& p2, const Point2& p3, const Point2& p4,
         const Color4D& c, Target* target)
     {
-        double xk = p1.x;
-        double yk = p1.y;
+        double xk = p1.x();
+        double yk = p1.y();
         for (double i = 0; i < 1; i += 0.01) {
-            double t_xk = std::pow(1 - i, 3)*p1.x + 3 * (1 - i)*(1 - i)*i*p2.x + 3 * (1 - i)*i*i*p3.x + i*i*i*p4.x;
-            double t_yk = std::pow(1 - i, 3)*p1.y + 3 * (1 - i)*(1 - i)*i*p2.y + 3 * (1 - i)*i*i*p3.y + i*i*i*p4.y;
+            double t_xk = std::pow(1 - i, 3)*p1.x() + 3 * (1 - i)*(1 - i)*i*p2.x() + 3 * (1 - i)*i*i*p3.x() + i*i*i*p4.x();
+            double t_yk = std::pow(1 - i, 3)*p1.y() + 3 * (1 - i)*(1 - i)*i*p2.y() + 3 * (1 - i)*i*i*p3.y() + i*i*i*p4.y();
 
             t_xk = std::round(t_xk);
             t_yk = std::round(t_yk);
 
             //PointRz::draw(xk, yk, c, target);
-            LineRz::drawSeg(Point2I(int(xk), int(yk)), Point2I(int(t_xk), int(t_yk)), c, target);
+            LineRz::drawSeg(
+                Point2I{ int(xk), int(yk) },
+                Point2I{ int(t_xk), int(t_yk) },
+                c, target);
 
             xk = t_xk;
             yk = t_yk;

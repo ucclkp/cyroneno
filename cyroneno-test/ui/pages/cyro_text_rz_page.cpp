@@ -79,8 +79,8 @@ namespace cyro {
             //super::drawLine(p0, p1, thick, thick_type, c);
             auto context = view_->getContext();
             view_->addLine(
-                ukive::PointD{ p0.x, p0.y },
-                ukive::PointD{ p1.x, p1.y },
+                ukive::PointD{ p0.x(), p0.y() },
+                ukive::PointD{ p1.x(), p1.y() },
                 ukive::Color::Black);
         }
 
@@ -88,10 +88,10 @@ namespace cyro {
             //super::drawLineSeg(p0, p1, c);
             auto context = view_->getContext();
             view_->addLine(
-                ukive::PointD{ p0.x, p0.y },
-                ukive::PointD{ p1.x, p1.y },
+                ukive::PointD{ p0.x(), p0.y() },
+                ukive::PointD{ p1.x(), p1.y() },
                 ukive::Color::Green400);
-            view_->addPoint(p0.x, p0.y, context.dp2pxi(3), ukive::Color::Green400,
+            view_->addPoint(p0.x(), p0.y(), context.dp2pxi(3), ukive::Color::Green400,
                 utl::itos16(index_), ukive::Color::Green400);
             ++index_;
         }
@@ -102,14 +102,14 @@ namespace cyro {
             //super::drawQuadBezier(p1, p2, p3, c);
             auto context = view_->getContext();
             view_->addQBezierLine(
-                ukive::PointD{ p1.x, p1.y },
-                ukive::PointD{ p2.x, p2.y },
-                ukive::PointD{ p3.x, p3.y },
+                ukive::PointD{ p1.x(), p1.y() },
+                ukive::PointD{ p2.x(), p2.y() },
+                ukive::PointD{ p3.x(), p3.y() },
                 ukive::Color::Pink200);
-            view_->addPoint(p1.x, p1.y, context.dp2pxi(3), ukive::Color::Pink200,
+            view_->addPoint(p1.x(), p1.y(), context.dp2pxi(3), ukive::Color::Pink200,
                 utl::itos16(index_), ukive::Color::Pink200);
             ++index_;
-            view_->addPoint(p2.x, p2.y, context.dp2pxi(3), ukive::Color::Pink200,
+            view_->addPoint(p2.x(), p2.y(), context.dp2pxi(3), ukive::Color::Pink200,
                 utl::itos16(index_), ukive::Color::Pink200);
             ++index_;
         }
@@ -166,6 +166,10 @@ namespace cyro {
         outline_cb_->setChecked(false);
         debug_cb_->setChecked(true);
         //generateImage();
+    }
+
+    void CyroTextRzPage::onShow(bool show) {
+        grid_view_->showOverlay(show);
     }
 
     void CyroTextRzPage::onClick(ukive::View* v) {

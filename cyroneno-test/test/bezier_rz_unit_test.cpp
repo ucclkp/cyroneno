@@ -14,14 +14,14 @@ namespace cyro {
 namespace test {
 
     void TEST_QUAD_BEZIERS(Rasterizer& rz) {
-        Point2 p1(200, 400);
-        Point2 p3(400, 360);
+        Point2 p1{200, 400};
+        Point2 p3{400, 360};
         for (int i = 0; i < 360; i += 2) {
             double rad = (3.14159265359 / 180) * i;
             double x = 400 * std::sin(rad);
             double y = 400 * std::cos(rad);
-            double x2 = std::round((p1.x + p3.x) / 2 + x);
-            double y2 = std::round((p1.y + p3.y) / 2 + y);
+            double x2 = std::round((p1.x() + p3.x()) / 2 + x);
+            double y2 = std::round((p1.y() + p3.y()) / 2 + y);
 
             rz.drawQuadBezier(p1, { x2, y2 }, p3, Color4D(0, 0, 0, 0.5f));
         }
@@ -80,38 +80,38 @@ namespace test {
         if (false)
         {
             rz.drawCubicBezier(
-                Point2(200, 200),
-                Point2(200, 250),
-                Point2(250, 300),
-                Point2(300, 300),
+                Point2{200, 200},
+                Point2{200, 250},
+                Point2{250, 300},
+                Point2{300, 300},
                 Color4D(0, 0, 0, 0.5f));
 
             rz.drawCubicBezier(
-                Point2(200, 200),
-                Point2(200, 300),
-                Point2(300, 250),
-                Point2(400, 500),
+                Point2{200, 200},
+                Point2{200, 300},
+                Point2{300, 250},
+                Point2{400, 500},
                 Color4D(0, 0, 0, 0.5f));
 
             rz.drawCubicBezier(
-                Point2(200, 200),
-                Point2(500, 500),
-                Point2(200, 500),
-                Point2(500, 200),
+                Point2{200, 200},
+                Point2{500, 500},
+                Point2{200, 500},
+                Point2{500, 200},
                 Color4D(0, 0, 0, 0.5f));
 
             rz.drawCubicBezier(
-                Point2(200, 200),
-                Point2(550, 550),
-                Point2(150, 550),
-                Point2(500, 200),
+                Point2{200, 200},
+                Point2{550, 550},
+                Point2{150, 550},
+                Point2{500, 200},
                 Color4D(0, 0, 0, 0.5f));
 
             rz.drawCubicBezier(
-                Point2(200, 200),
-                Point2(600, 900),
-                Point2(-50, 50),
-                Point2(400, 400),
+                Point2{200, 200},
+                Point2{600, 900},
+                Point2{-50, 50},
+                Point2{400, 400},
                 Color4D(0, 0, 0, 0.5f));
         }
 
@@ -120,10 +120,10 @@ namespace test {
             double t1 = 0.2;
             double t2 = 0.5;
 
-            Point2 p0(200, 200);
-            Point2 p1(250, 400);
-            Point2 p2(400, 450);
-            Point2 p3(700, 350);
+            Point2 p0{200, 200};
+            Point2 p1{250, 400};
+            Point2 p2{400, 450};
+            Point2 p3{700, 350};
 
             rz.drawLineSeg(p0, p1, Color4D(0, 0, 0, 1));
             rz.drawLineSeg(p1, p2, Color4D(0, 0, 0, 1));

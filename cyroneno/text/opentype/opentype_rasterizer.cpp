@@ -45,11 +45,11 @@ namespace otf {
             bool prev_has_beizer = false;
             uint16_t cur_end_pt = glyph.glyph_table.contour_end_pts[i];
             for (bool first = true; j <= cur_end_pt; ++j) {
-                Point2 start(cur_x * scale, cur_y * scale);
+                Point2 start{ cur_x * scale, cur_y * scale };
 
                 cur_x = glyph.glyph_table.x_coord[j] + off_x;
                 cur_y = glyph.glyph_table.y_coord[j] + off_y;
-                Point2 end(cur_x * scale, cur_y * scale);
+                Point2 end{ cur_x * scale, cur_y * scale };
 
                 if (!first) {
                     if (glyph.glyph_table.flags[j] & GLYF::ON_CURVE_POINT) {
@@ -106,7 +106,7 @@ namespace otf {
             }
         }
 
-        Point2 p(0, 14.8046875);
+        Point2 p{ 0, 14.8046875 };
         if (use_glyph_rz) {
             glyph_rz.draw(width, height, rz);
             //glyph_rz.hitTest(p.x, p.y);
@@ -144,11 +144,11 @@ namespace otf {
             bool prev_has_beizer = false;
             uint16_t cur_end_pt = glyph.glyph_table.contour_end_pts[i];
             for (bool first = true; j <= cur_end_pt; ++j) {
-                Point2 start(cur_x * scale, cur_y * scale);
+                Point2 start{ cur_x * scale, cur_y * scale };
 
                 cur_x += glyph.glyph_table.x_coord[j];
                 cur_y += glyph.glyph_table.y_coord[j];
-                Point2 end(cur_x * scale, cur_y * scale);
+                Point2 end{ cur_x * scale, cur_y * scale };
 
                 if (!first) {
                     if (glyph.glyph_table.flags[j] & GLYF::ON_CURVE_POINT) {

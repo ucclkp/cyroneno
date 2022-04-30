@@ -40,12 +40,12 @@ namespace cyro {
         double t = img_height;
         double b = -img_height;
 
-        Point3 eye(0, 100, 0);
-        Vector3 view_dir(0, -0.3, -1);
-        Vector3 up_vector(0, 1, 0);
+        Point3 eye{ 0, 100, 0 };
+        Vector3 view_dir{ 0, -0.3, -1 };
+        Vector3 up_vector{ 0, 1, 0 };
 
-        Vector3 cb_w = -view_dir.normalize();
-        Vector3 cb_u = (up_vector ^ cb_w).normalize();
+        Vector3 cb_w = -view_dir.N();
+        Vector3 cb_u = (up_vector ^ cb_w).N();
         Vector3 cb_v = cb_w ^ cb_u;
 
         for (int j = 0; j < img_height; ++j) {
@@ -105,25 +105,25 @@ namespace cyro {
 
     void RayTracer::initLights() {
         Light light1;
-        light1.pos = Point3(-300, 300, -800);
+        light1.pos = Point3{ -300, 300, -800 };
         light1.intensity = Color3D(0.4, 0.4, 0.4);
         lights_.push_back(light1);
 
         Light light2;
-        light2.pos = Point3(100, 100, 0);
+        light2.pos = Point3{ 100, 100, 0 };
         light2.intensity = Color3D(0.2, 0.2, 0.2);
         lights_.push_back(light2);
     }
 
     void RayTracer::initSurfaces() {
-        auto sphere1 = new Sphere(Point3(-100, 82, -600), 80);
+        auto sphere1 = new Sphere(Point3{ -100, 82, -600 }, 80);
         sphere1->setKd(Color3D(0.4, 0.4, 0.4));
         sphere1->setKs(Color3D(0.8, 0.8, 0.8));
         sphere1->setPhongExp(80);
         sphere1->setShadingMethod(Surface::DIFFUSE | Surface::SPECULAR);
         scene_.addSurface(sphere1);
 
-        auto sphere2 = new Sphere(Point3(100, 82, -600), 80);
+        auto sphere2 = new Sphere(Point3{ 100, 82, -600 }, 80);
         sphere2->setKd(Color3D(0.86, 0.86, 0.86));
         sphere2->setKs(Color3D(0.8, 0.8, 0.8));
         sphere2->setPhongExp(80);
@@ -132,11 +132,11 @@ namespace cyro {
 
         double edge_length = 1000;
         auto plane1 = new Plane(
-            { Point3(edge_length, 0, 0),
-              Point3(-edge_length, 0, 0),
-              Point3(-edge_length, 0, -edge_length - 1000),
-              Point3(edge_length, 0, -edge_length - 1000) },
-            Vector3(0, 1, 0));
+            { Point3{edge_length, 0, 0},
+              Point3{-edge_length, 0, 0},
+              Point3{-edge_length, 0, -edge_length - 1000},
+              Point3{edge_length, 0, -edge_length - 1000} },
+            Vector3{ 0, 1, 0 });
         plane1->setKd(Color3D(0.55, 0.55, 0.55));
         plane1->setShadingMethod(Surface::DIFFUSE | Surface::SPECULAR);
         scene_.addSurface(plane1);
@@ -153,8 +153,8 @@ namespace cyro {
 
             if (hit.shading_method & Surface::SPECULAR) {
                 // 镜面反射（可能反射多次）
-                auto vv = (ray.origin - hit.p).normalize();
-                auto re = (-vv + hit.n*(2 * (vv*hit.n))).normalize();
+                auto vv = (ray.origin - hit.p).N();
+                auto re = (-vv + hit.n*(2 * (vv*hit.n))).N();
 
                 Ray re_ray;
                 re_ray.origin = hit.p;
@@ -164,9 +164,9 @@ namespace cyro {
             }
 
             for (const auto& light : lights_) {
-                auto lv = (light.pos - hit.p).normalize();
-                auto vv = (ray.origin - hit.p).normalize();
-                auto hv = (vv + lv).normalize();
+                auto lv = (light.pos - hit.p).N();
+                auto vv = (ray.origin - hit.p).N();
+                auto hv = (vv + lv).N();
 
                 Ray shadow_ray;
                 shadow_ray.direction = lv;
@@ -197,12 +197,12 @@ namespace cyro {
         double t = img_height;
         double b = -img_height;
 
-        Point3 eye(0, 100, 0);
-        Vector3 view_dir(0, -0.3, -1);
-        Vector3 up_vector(0, 1, 0);
+        Point3 eye{ 0, 100, 0 };
+        Vector3 view_dir{ 0, -0.3, -1 };
+        Vector3 up_vector{ 0, 1, 0 };
 
-        Vector3 cb_w = -view_dir.normalize();
-        Vector3 cb_u = (up_vector ^ cb_w).normalize();
+        Vector3 cb_w = -view_dir.N();
+        Vector3 cb_u = (up_vector ^ cb_w).N();
         Vector3 cb_v = cb_w ^ cb_u;
 
         for (int j = 0; j < img_height; ++j) {

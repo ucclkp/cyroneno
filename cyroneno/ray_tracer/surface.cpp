@@ -42,8 +42,8 @@ namespace cyro {
     }
 
     Box Sphere::boundingBox() const {
-        auto min_pos = center_ - Vector3(radius_, radius_, radius_);
-        auto max_pos = center_ + Vector3(radius_, radius_, radius_);
+        auto min_pos = center_ - Vector3{radius_, radius_, radius_};
+        auto max_pos = center_ + Vector3{radius_, radius_, radius_};
         return Box(min_pos, max_pos);
     }
 
@@ -71,20 +71,20 @@ namespace cyro {
             auto v1 = *it;
             auto v2 = (it + 1 == points_.end()) ? *points_.begin() : *(it + 1);
 
-            if ((v1.x < p.x && v2.x < p.x) ||
-                (v1.z > p.z && v2.z > p.z) ||
-                (v1.z < p.z && v2.z < p.z))
+            if ((v1.x() < p.x() && v2.x() < p.x()) ||
+                (v1.z() > p.z() && v2.z() > p.z()) ||
+                (v1.z() < p.z() && v2.z() < p.z()))
             {
                 continue;
             }
 
-            if (v1.x >= p.x && v2.x >= p.x) {
+            if (v1.x() >= p.x() && v2.x() >= p.x()) {
                 ++hit_count;
                 continue;
             }
 
-            auto vx_at_pz = (p.z - v1.z) / (v2.z - v1.z)*(v2.x - v1.x) + v1.x;
-            if (p.x < vx_at_pz) {
+            auto vx_at_pz = (p.z() - v1.z()) / (v2.z() - v1.z())*(v2.x() - v1.x()) + v1.x();
+            if (p.x() < vx_at_pz) {
                 ++hit_count;
             }
         }

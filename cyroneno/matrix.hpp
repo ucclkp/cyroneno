@@ -4,18 +4,18 @@
 // This program is licensed under GPLv3 license that can be
 // found in the LICENSE file.
 
-#ifndef CYRONENO_VECTOR_HPP_
-#define CYRONENO_VECTOR_HPP_
+#ifndef CYRONENO_MATRIX_HPP_
+#define CYRONENO_MATRIX_HPP_
 
 #include "utils/math/algebra/matrix.hpp"
+#include "utils/math/algebra/special_matrix.hpp"
 
 
 namespace cyro {
 
-    using Vector2 = utl::math::VectorT<double, 2>;
-    using Vector3 = utl::math::VectorT<double, 3>;
-    using Vector4 = utl::math::VectorT<double, 4>;
+    using Matrix3x3 = utl::mat3d;
+    using Matrix4x4 = utl::mat4d;
 
 }
 
-#endif  // CYRONENO_VECTOR_HPP_
+#endif  // CYRONENO_MATRIX_HPP_

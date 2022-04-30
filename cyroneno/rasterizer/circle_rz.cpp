@@ -23,10 +23,10 @@ namespace cyro {
         int yk = 0;
         int ek = 2 * (1 - r);
 
-        PointRz::draw(-r + center.x, 0 + center.y, c, target);
-        PointRz::draw(0 + center.x, r + center.y, c, target);
-        PointRz::draw(r + center.x, 0 + center.y, c, target);
-        PointRz::draw(0 + center.x, -r + center.y, c, target);
+        PointRz::draw(-r + center.x(), 0 + center.y(), c, target);
+        PointRz::draw(0 + center.x(), r + center.y(), c, target);
+        PointRz::draw(r + center.x(), 0 + center.y(), c, target);
+        PointRz::draw(0 + center.x(), -r + center.y(), c, target);
 
         while (xk < 0) {
             int exy = ek;
@@ -43,10 +43,10 @@ namespace cyro {
             }
 
             if (xk != 0) {
-                PointRz::draw(xk + center.x, yk + center.y, c, target);
-                PointRz::draw(-xk + center.x, yk + center.y, c, target);
-                PointRz::draw(xk + center.x, -yk + center.y, c, target);
-                PointRz::draw(-xk + center.x, -yk + center.y, c, target);
+                PointRz::draw(xk  + center.x(), yk  + center.y(), c, target);
+                PointRz::draw(-xk + center.x(), yk  + center.y(), c, target);
+                PointRz::draw(xk  + center.x(), -yk + center.y(), c, target);
+                PointRz::draw(-xk + center.x(), -yk + center.y(), c, target);
             }
         }
     }
@@ -95,10 +95,10 @@ namespace cyro {
         int ek_out = 2 * (1 - r_out);
 
         for (int i = 0; i < thick; ++i) {
-            PointRz::draw(-r_in - i + center.x, 0 + center.y, c, target); // 左
-            PointRz::draw(0 + center.x, r_in + i + center.y, c, target);  // 上
-            PointRz::draw(r_in + i + center.x, 0 + center.y, c, target);  // 右
-            PointRz::draw(0 + center.x, -r_in - i + center.y, c, target); // 下
+            PointRz::draw(-r_in - i + center.x(), 0 + center.y(), c, target); // 左
+            PointRz::draw(0 + center.x(), r_in + i + center.y(), c, target);  // 上
+            PointRz::draw(r_in + i + center.x(), 0 + center.y(), c, target);  // 右
+            PointRz::draw(0 + center.x(), -r_in - i + center.y(), c, target); // 下
         }
 
         int prev_x_out = xk_out - 1;
@@ -147,18 +147,18 @@ namespace cyro {
                         start = 1;
                     }
                     for (int i = start; i < yk_out; ++i) {
-                        PointRz::draw(xk_out + center.x, i + center.y, c, target);
-                        PointRz::draw(-xk_out + center.x, i + center.y, c, target);
-                        PointRz::draw(xk_out + center.x, -i + center.y, c, target);
-                        PointRz::draw(-xk_out + center.x, -i + center.y, c, target);
+                        PointRz::draw( xk_out + center.x(),  i + center.y(), c, target);
+                        PointRz::draw(-xk_out + center.x(),  i + center.y(), c, target);
+                        PointRz::draw( xk_out + center.x(), -i + center.y(), c, target);
+                        PointRz::draw(-xk_out + center.x(), -i + center.y(), c, target);
                     }
                     ++prev_x_out;
                 }
 
-                PointRz::draw(xk_out + center.x, yk_out + center.y, c, target);
-                PointRz::draw(-xk_out + center.x, yk_out + center.y, c, target);
-                PointRz::draw(xk_out + center.x, -yk_out + center.y, c, target);
-                PointRz::draw(-xk_out + center.x, -yk_out + center.y, c, target);
+                PointRz::draw( xk_out + center.x(),  yk_out + center.y(), c, target);
+                PointRz::draw(-xk_out + center.x(),  yk_out + center.y(), c, target);
+                PointRz::draw( xk_out + center.x(), -yk_out + center.y(), c, target);
+                PointRz::draw(-xk_out + center.x(), -yk_out + center.y(), c, target);
             }
         }
     }
@@ -174,10 +174,10 @@ namespace cyro {
         int yk = 0;
         int ek = a * a - b * b * (2 * a - 1);
 
-        PointRz::draw(-a + center.x, 0 + center.y, c, target);
-        PointRz::draw(0 + center.x, b + center.y, c, target);
-        PointRz::draw(a + center.x, 0 + center.y, c, target);
-        PointRz::draw(0 + center.x, -b + center.y, c, target);
+        PointRz::draw(-a + center.x(),  0 + center.y(), c, target);
+        PointRz::draw( 0 + center.x(),  b + center.y(), c, target);
+        PointRz::draw( a + center.x(),  0 + center.y(), c, target);
+        PointRz::draw( 0 + center.x(), -b + center.y(), c, target);
 
         while (xk < 0) {
             int exy = ek;
@@ -194,16 +194,16 @@ namespace cyro {
             }
 
             if (xk != 0) {
-                PointRz::draw(xk + center.x, yk + center.y, c, target);
-                PointRz::draw(-xk + center.x, yk + center.y, c, target);
-                PointRz::draw(xk + center.x, -yk + center.y, c, target);
-                PointRz::draw(-xk + center.x, -yk + center.y, c, target);
+                PointRz::draw( xk + center.x(),  yk + center.y(), c, target);
+                PointRz::draw(-xk + center.x(),  yk + center.y(), c, target);
+                PointRz::draw( xk + center.x(), -yk + center.y(), c, target);
+                PointRz::draw(-xk + center.x(), -yk + center.y(), c, target);
             }
         }
 
         while (yk < b) {
-            PointRz::draw(xk + center.x, yk + center.y, c, target);
-            PointRz::draw(-xk + center.x, -yk + center.y, c, target);
+            PointRz::draw( xk + center.x(),  yk + center.y(), c, target);
+            PointRz::draw(-xk + center.x(), -yk + center.y(), c, target);
             ++yk;
         }
     }
@@ -222,10 +222,10 @@ namespace cyro {
 
         int xk = 0;
         int yk = r;
-        PointRz::draw(xk + center.x, yk + center.y, c, target);
-        PointRz::draw(yk + center.y, xk + center.x, c, target);
-        PointRz::draw(xk + center.x, -yk + center.y, c, target);
-        PointRz::draw(-yk + center.y, xk + center.x, c, target);
+        PointRz::draw( xk + center.x(),  yk + center.y(), c, target);
+        PointRz::draw( yk + center.y(),  xk + center.x(), c, target);
+        PointRz::draw( xk + center.x(), -yk + center.y(), c, target);
+        PointRz::draw(-yk + center.y(),  xk + center.x(), c, target);
 
         int _2xk = 0;
         int _2yk = 2 * r;
@@ -242,15 +242,15 @@ namespace cyro {
             }
 
             if (xk <= yk) {
-                PointRz::draw(xk + center.x, yk + center.y, c, target);
-                PointRz::draw(-xk + center.x, yk + center.y, c, target);
-                PointRz::draw(xk + center.x, -yk + center.y, c, target);
-                PointRz::draw(-xk + center.x, -yk + center.y, c, target);
+                PointRz::draw( xk + center.x(),  yk + center.y(), c, target);
+                PointRz::draw(-xk + center.x(),  yk + center.y(), c, target);
+                PointRz::draw( xk + center.x(), -yk + center.y(), c, target);
+                PointRz::draw(-xk + center.x(), -yk + center.y(), c, target);
                 if (xk != yk) {
-                    PointRz::draw(yk + center.y, xk + center.x, c, target);
-                    PointRz::draw(-yk + center.y, xk + center.x, c, target);
-                    PointRz::draw(yk + center.y, -xk + center.x, c, target);
-                    PointRz::draw(-yk + center.y, -xk + center.x, c, target);
+                    PointRz::draw( yk + center.y(),  xk + center.x(), c, target);
+                    PointRz::draw(-yk + center.y(),  xk + center.x(), c, target);
+                    PointRz::draw( yk + center.y(), -xk + center.x(), c, target);
+                    PointRz::draw(-yk + center.y(), -xk + center.x(), c, target);
                 }
             }
         }

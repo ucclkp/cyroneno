@@ -6,7 +6,7 @@
 
 #include "pipeline.h"
 
-#include "../matrix.h"
+#include "../matrix.hpp"
 #include "../vector.hpp"
 
 #define PI 3.1415926535898
@@ -33,14 +33,14 @@ namespace cyro {
     void Pipeline::constructCube() {
         double hl = 50;
         Polygon cube;
-        cube.vertices.push_back({ Point3(-hl, hl, hl) });
-        cube.vertices.push_back({ Point3(hl, hl, hl) });
-        cube.vertices.push_back({ Point3(hl, hl, -hl) });
-        cube.vertices.push_back({ Point3(-hl, hl, -hl) });
-        cube.vertices.push_back({ Point3(-hl, -hl, hl) });
-        cube.vertices.push_back({ Point3(hl, -hl, hl) });
-        cube.vertices.push_back({ Point3(hl, -hl, -hl) });
-        cube.vertices.push_back({ Point3(-hl, -hl, -hl) });
+        cube.vertices.push_back({ Point3{-hl, hl, hl} });
+        cube.vertices.push_back({ Point3{hl, hl, hl} });
+        cube.vertices.push_back({ Point3{hl, hl, -hl} });
+        cube.vertices.push_back({ Point3{-hl, hl, -hl} });
+        cube.vertices.push_back({ Point3{-hl, -hl, hl} });
+        cube.vertices.push_back({ Point3{hl, -hl, hl} });
+        cube.vertices.push_back({ Point3{hl, -hl, -hl} });
+        cube.vertices.push_back({ Point3{-hl, -hl, -hl} });
 
         cube.indices.push_back({ 0, 4, 5 });
         cube.indices.push_back({ 0, 5, 1 });
@@ -68,12 +68,12 @@ namespace cyro {
         Polygon sphere;
         for (int i = 0; i <= vert_div; ++i) {
             if (i == 0) {
-                sphere.vertices.push_back({ Point3(0, r, 0) });
+                sphere.vertices.push_back({ Point3{0, r, 0} });
                 for (int j = 0; j < hori_div; ++j) {
                     sphere.indices.push_back({ 0, 1 + j, (1 + j) % hori_div + 1 });
                 }
             } else if (i == vert_div) {
-                sphere.vertices.push_back({ Point3(0, -r, 0) });
+                sphere.vertices.push_back({ Point3{0, -r, 0} });
             } else {
                 double a = i * v_angle;
                 int start_idx = 1 + (i - 1) * hori_div;
@@ -81,7 +81,10 @@ namespace cyro {
                 for (int j = 0; j < hori_div; ++j) {
                     double b = j * h_angle;
                     sphere.vertices.push_back({
-                        Point3(r*std::sin(a)*std::cos(b), r*std::cos(a), r*std::sin(a)*std::sin(b)) });
+                        Point3{
+                            r * std::sin(a) * std::cos(b),
+                            r * std::cos(a),
+                            r * std::sin(a) * std::sin(b)} });
 
                     int cur_idx = start_idx + j;
                     auto cur_1 = (cur_idx + 1 - start_idx) % hori_div + start_idx;
@@ -112,9 +115,9 @@ namespace cyro {
         double near = -96;
         double far = -87 * 3;
 
-        Vector3 eye(100, 100, 100);
-        Vector3 look(-1, -1, -1);
-        Vector3 up(0, 1, 0);
+        Point3 eye{ 100, 100, 100 };
+        Vector3 look{ -1, -1, -1 };
+        Vector3 up{ 0, 1, 0 };
 
         if (flags_ & Flags::CLIP_BEFORE) {
             // 在世界坐标中裁剪
@@ -125,24 +128,24 @@ namespace cyro {
 
         Matrix4x4 matrix;
         if (is_persp_) {
-            matrix = Matrix4x4::viewport(vp_width, vp_height) *
-                Matrix4x4::orthoProj(left, right, bottom, top, near, far) *
-                Matrix4x4::persp(near, far) *
-                Matrix4x4::camera(eye, look, up);
+            matrix = utl::math::viewport4x4<double>(vp_width, vp_height) *
+                utl::math::orthoProj4x4<double>(left, right, bottom, top, near, far) *
+                utl::math::persp4x4<double>(near, far) *
+                utl::math::camera4x4<double>(eye, look, up);
         } else {
-            matrix = Matrix4x4::viewport(vp_width, vp_height) *
-                Matrix4x4::orthoProj(left, right, bottom, top, near, far) *
-                Matrix4x4::camera(eye, look, up);
+            matrix = utl::math::viewport4x4<double>(vp_width, vp_height) *
+                utl::math::orthoProj4x4<double>(left, right, bottom, top, near, far) *
+                utl::math::camera4x4<double>(eye, look, up);
         }
 
         for (auto& polygon : polygons_) {
             for (auto& vertex : polygon.vertices) {
-                auto p = matrix * Point4(vertex.pos, 1);
+                auto p = matrix * vertex.pos.gain({ 1 });
                 polygon.t_vertices_4d.push_back(p);
             }
 
             for (auto& vertex : polygon.cgtv_3d) {
-                auto p = matrix * Point4(vertex, 1);
+                auto p = matrix * vertex.gain({1});
                 polygon.cgtv_4d.push_back(p);
             }
         }
@@ -155,18 +158,18 @@ namespace cyro {
             for (auto& polygon : polygons_) {
                 for (auto& vertex : polygon.t_vertices_4d) {
                     auto& p = vertex;
-                    p.x /= p.w;
-                    p.y /= p.w;
-                    p.z /= p.w;
-                    p.w = 1;
+                    p.x() /= p.w();
+                    p.y() /= p.w();
+                    p.z() /= p.w();
+                    p.w() = 1;
                 }
 
                 for (auto& vertex : polygon.cgtv_4d) {
                     auto& p = vertex;
-                    p.x /= p.w;
-                    p.y /= p.w;
-                    p.z /= p.w;
-                    p.w = 1;
+                    p.x() /= p.w();
+                    p.y() /= p.w();
+                    p.z() /= p.w();
+                    p.w() = 1;
                 }
             }
         }
@@ -180,7 +183,7 @@ namespace cyro {
                 int ct_index = 0;
                 Point2 tri_pts[3];
                 for (const auto& p : polygon.t_vertices_4d) {
-                    tri_pts[index] = Point2(p.x, p.y);
+                    tri_pts[index] = { p.x(), p.y() };
                     ++index;
                     if (index >= 3) {
                         index = 0;
@@ -195,7 +198,7 @@ namespace cyro {
 
                 index = 0;
                 for (const auto& p : polygon.cgtv_4d) {
-                    tri_pts[index] = Point2(p.x, p.y);
+                    tri_pts[index] = Point2{ p.x(), p.y() };
                     ++index;
                     if (index >= 3) {
                         index = 0;
@@ -213,7 +216,7 @@ namespace cyro {
                         Point2 tri_pts[3];
                         for (int i = 0; i < 3; ++i) {
                             auto p = polygon.t_vertices_4d[index[i]];
-                            tri_pts[i] = Point2(p.x, p.y);
+                            tri_pts[i] = Point2{ p.x(), p.y() };
                         }
                         rasterizer_.drawLineSeg(tri_pts[0], tri_pts[1], Color4D(0, 0, 0, 1));
                         rasterizer_.drawLineSeg(tri_pts[1], tri_pts[2], Color4D(0, 0, 0, 1));
@@ -233,7 +236,7 @@ namespace cyro {
                         } else {
                             p = polygon.t_vertices_4d[idx];
                         }
-                        tri_pts[i] = Point2(p.x, p.y);
+                        tri_pts[i] = Point2{ p.x(), p.y() };
                     }
                     rasterizer_.drawLineSeg(tri_pts[0], tri_pts[1], Color4D(0, 0, 0, 1));
                     rasterizer_.drawLineSeg(tri_pts[1], tri_pts[2], Color4D(0, 0, 0, 1));
@@ -245,54 +248,54 @@ namespace cyro {
 
     void Pipeline::clipTrianglesBefore(
         double left, double right, double top, double bottom, double near, double far,
-        const Vector3& eye, const Vector3& look, const Vector3& up)
+        const Point3& eye, const Vector3& look, const Vector3& up)
     {
-        Point3 lbn(left, bottom, near);
-        Point3 rbn(right, bottom, near);
-        Point3 ltn(left, top, near);
-        Point3 rtn(right, top, near);
-        Point3 lbf(left, bottom, far);
-        Point3 rbf(right, bottom, far);
-        Point3 ltf(left, top, far);
-        Point3 rtf(right, top, far);
+        Point3 lbn{ left, bottom, near };
+        Point3 rbn{right, bottom, near };
+        Point3 ltn{left, top, near };
+        Point3 rtn{right, top, near };
+        Point3 lbf{left, bottom, far };
+        Point3 rbf{right, bottom, far };
+        Point3 ltf{left, top, far };
+        Point3 rtf{right, top, far };
 
-        auto cam_inv_m = Matrix4x4::cameraInverse(eye, look, up);
-        lbn = (cam_inv_m * Point4(lbn, 1)).toPoint3();
-        rbn = (cam_inv_m * Point4(rbn, 1)).toPoint3();
-        ltn = (cam_inv_m * Point4(ltn, 1)).toPoint3();
-        rtn = (cam_inv_m * Point4(rtn, 1)).toPoint3();
-        lbf = (cam_inv_m * Point4(lbf, 1)).toPoint3();
-        rbf = (cam_inv_m * Point4(rbf, 1)).toPoint3();
-        ltf = (cam_inv_m * Point4(ltf, 1)).toPoint3();
-        rtf = (cam_inv_m * Point4(rtf, 1)).toPoint3();
+        auto cam_inv_m = utl::math::cameraInverse4x4(eye, look, up);
+        lbn = (cam_inv_m * lbn.gain({1})).reduce<3>();
+        rbn = (cam_inv_m * rbn.gain({1})).reduce<3>();
+        ltn = (cam_inv_m * ltn.gain({1})).reduce<3>();
+        rtn = (cam_inv_m * rtn.gain({1})).reduce<3>();
+        lbf = (cam_inv_m * lbf.gain({1})).reduce<3>();
+        rbf = (cam_inv_m * rbf.gain({1})).reduce<3>();
+        ltf = (cam_inv_m * ltf.gain({1})).reduce<3>();
+        rtf = (cam_inv_m * rtf.gain({1})).reduce<3>();
 
         // left clip plane
-        auto n_left = ((lbn - ltn) ^ (lbn - lbf)).normalize();
+        auto n_left = ((lbn - ltn) ^ (lbn - lbf)).N();
         auto q_left = lbn;
         PlaneEqu lcp(n_left, q_left);
 
         // top clip plane
-        auto n_top = ((ltn - rtn) ^ (ltn - ltf)).normalize();
+        auto n_top = ((ltn - rtn) ^ (ltn - ltf)).N();
         auto q_top = ltn;
         PlaneEqu tcp(n_top, q_top);
 
         // right clip plane
-        auto n_right = ((rbf - rbn) ^ (rtn - rbn)).normalize();
+        auto n_right = ((rbf - rbn) ^ (rtn - rbn)).N();
         auto q_right = rbn;
         PlaneEqu rcp(n_right, q_right);
 
         // bottom clip plane
-        auto n_bottom = ((rbn - lbn) ^ (rbn - rbf)).normalize();
+        auto n_bottom = ((rbn - lbn) ^ (rbn - rbf)).N();
         auto q_bottom = rbn;
         PlaneEqu bcp(n_bottom, q_bottom);
 
         // near clip plane
-        auto n_near = ((rbn - rtn) ^ (rbn - lbn)).normalize();
+        auto n_near = ((rbn - rtn) ^ (rbn - lbn)).N();
         auto q_near = rbn;
         PlaneEqu ncp(n_near, q_near);
 
         // far clip plane
-        auto n_far = ((ltf - lbf) ^ (rbf - lbf)).normalize();
+        auto n_far = ((ltf - lbf) ^ (rbf - lbf)).N();
         auto q_far = lbf;
         PlaneEqu fcp(n_far, q_far);
 
@@ -352,12 +355,12 @@ namespace cyro {
         // 因此需要使用和正交投影不同的裁剪方法，即让裁剪面也关于原点对称。
         int inv = is_persp ? 1 : -1;
 
-        PlaneEqu4D lch(Vector4(1 * inv, 0, 0, -left * inv), Point4(left, 0, 0, 1));  // left clip hyperplane
-        PlaneEqu4D rch(Vector4(-1 * inv, 0, 0, right * inv), Point4(right, 0, 0, 1));  // right clip hyperplane
-        PlaneEqu4D bch(Vector4(0, 1 * inv, 0, -bottom * inv), Point4(0, bottom, 0, 1));  // bottom clip hyperplane
-        PlaneEqu4D tch(Vector4(0, -1 * inv, 0, top * inv), Point4(0, top, 0, 1));  // top clip hyperplane
-        PlaneEqu4D nch(Vector4(0, 0, -1 * inv, near * inv), Point4(0, 0, near, 1));  // near clip hyperplane
-        PlaneEqu4D fch(Vector4(0, 0, 1 * inv, -far * inv), Point4(0, 0, far, 1));  // far clip hyperplane
+        PlaneEqu4D lch(Vector4{ 1.0 * inv, 0, 0, -left * inv },  Point4{ left, 0, 0, 1 });  // left clip hyperplane
+        PlaneEqu4D rch(Vector4{-1.0 * inv, 0, 0, right * inv },  Point4{right, 0, 0, 1 });  // right clip hyperplane
+        PlaneEqu4D bch(Vector4{0, 1.0 * inv, 0, -bottom * inv }, Point4{0, bottom, 0, 1 });  // bottom clip hyperplane
+        PlaneEqu4D tch(Vector4{0, -1.0 * inv, 0, top * inv },    Point4{0, top, 0, 1 });  // top clip hyperplane
+        PlaneEqu4D nch(Vector4{0, 0, -1.0 * inv, near * inv },   Point4{0, 0, near, 1 });  // near clip hyperplane
+        PlaneEqu4D fch(Vector4{0, 0, 1.0 * inv, -far * inv },    Point4{0, 0, far, 1 });  // far clip hyperplane
 
         for (auto& polygon : polygons_) {
             if (polygon.indices.empty()) {
@@ -410,7 +413,7 @@ namespace cyro {
         auto fa = cp.cal(a);
         auto fb = cp.cal(b);
         if (fa * fb < 0) {
-            auto t = (cp.n_*a.toVector() + cp.d_) / (cp.n_*(a - b));
+            auto t = (cp.n_*a.vec() + cp.d_) / (cp.n_*(a - b));
             auto p = a + (b - a)*t;
             if (fa > 0) {
                 a = p;
@@ -523,7 +526,7 @@ namespace cyro {
         auto fa = cp.cal(a);
         auto fb = cp.cal(b);
         if (fa * fb < 0) {
-            auto t = (cp.n_*a.toVector() + cp.d_) / (cp.n_*(a - b));
+            auto t = (cp.n_*a.vec() + cp.d_) / (cp.n_*(a - b));
             auto p = a + (b - a)*t;
             if (fa > 0) {
                 a = p;

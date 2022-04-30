@@ -34,6 +34,7 @@ namespace cyro {
         // ukive::Page
         ukive::View* onCreate(ukive::LayoutView* parent) override;
         void onInitialize() override;
+        void onShow(bool show) override;
 
         // ukive::OnClickListener
         void onClick(ukive::View* v) override;
